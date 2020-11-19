@@ -1,5 +1,3 @@
-com\JTChen\MyQueue.class
-com\JTChen\MyStack.class
-com\JTChen\QuickSort.class
-com\JTChen\ListNode.class
-com\JTChen\HeapSort.class
+com\JTChen\PracticalOperation\Matrix.class
+com\JTChen\PracticalOperation\RelativelyPrime.class
+MyCalculator.class
