@@ -1,4 +1,4 @@
-package Class_1_2;
+package com.JTChen.PracticalOperation;
 
 import java.util.Objects;
 
