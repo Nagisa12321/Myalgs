@@ -1,9 +1,6 @@
-package Class_1_2;
+package com.JTChen.PracticalOperation;
 
 import edu.princeton.cs.algs4.Date;
-import edu.princeton.cs.algs4.StdOut;
-
-import java.util.Arrays;
 
 /************************************************
  * @description
