@@ -6,7 +6,7 @@ import edu.princeton.cs.algs4.Date;
  * @description
  * @author jtchen
  * @date 2020/11/23 16:20
- * @version 1.0
+ * @version 1.1
  ************************************************/
 public class Transaction implements Comparable<Transaction> {
     private final String who;      // customer
@@ -14,6 +14,18 @@ public class Transaction implements Comparable<Transaction> {
     private final double amount;
 
     public Transaction(String who, Date when, double amount) {
+        if (Double.isNaN(amount) || Double.isInfinite(amount))
+            throw new IllegalArgumentException("Amount cannot be NaN or infinite");
+        this.amount = amount;
+        this.when = when;
+        this.who = who;
+    }
+
+    public Transaction(String str) {
+        String[] strings = str.split(" ");
+        String who = strings[0];
+        Date when = new Date(strings[1]);
+        double amount = Double.parseDouble(strings[2]);
         if (Double.isNaN(amount) || Double.isInfinite(amount))
             throw new IllegalArgumentException("Amount cannot be NaN or infinite");
         this.amount = amount;
@@ -67,4 +79,7 @@ public class Transaction implements Comparable<Transaction> {
         return hash;
     }
 
+    public static void main(String[] args) {
+        Transaction a = new Transaction("Turing 11/24/2020 10.26");
+    }
 }

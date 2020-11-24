@@ -90,7 +90,7 @@ public class VisualCounter {
     }
 
     public static void main(String[] args) {
-        VisualCounter a = new VisualCounter(100, 100);
+        VisualCounter a = new VisualCounter(10, 10);
         a.increase();
         a.decrease();
         a.increase();
@@ -105,18 +105,6 @@ public class VisualCounter {
         a.decrease();
         a.increase();
         a.increase();
-        a.increase();
-        a.decrease();
-        a.decrease();
-        a.decrease();
-        a.decrease();
-        a.decrease();
-        a.increase();
-        a.decrease();
-        a.increase();
-        a.increase();
-        a.increase();
-        a.decrease();
         a.decrease();
         a.decrease();
         a.decrease();
@@ -125,18 +113,6 @@ public class VisualCounter {
         a.decrease();
         a.increase();
         a.increase();
-        a.increase();
-        a.decrease();
-        a.decrease();
-        a.decrease();
-        a.decrease();
-        a.decrease();
-        a.increase();
-        a.decrease();
-        a.increase();
-        a.increase();
-        a.increase();
-        a.decrease();
         a.decrease();
         a.decrease();
         a.decrease();
@@ -145,11 +121,6 @@ public class VisualCounter {
         a.decrease();
         a.increase();
         a.increase();
-        a.increase();
-        a.decrease();
-        a.decrease();
-        a.decrease();
-        a.decrease();
-        a.decrease();
+
     }
 }
