@@ -1,4 +1,4 @@
-package com.JTChen.algs;
+package com.JTChen.TypeOfData;
 
 import java.util.NoSuchElementException;
 /**
