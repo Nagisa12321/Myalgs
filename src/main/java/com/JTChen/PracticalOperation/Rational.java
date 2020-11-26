@@ -3,7 +3,7 @@ package com.JTChen.PracticalOperation;
 import java.util.Objects;
 
 /************************************************
- * @description ÓÃÓĞÀíÊıÊµÏÖÒ»¸ö±Èu¿É±äÊı¾İÀàĞÍ£¬Ö§³Ö¼Ó¼õ³Ë³ı²Ù×÷
+ * @description ç”¨æœ‰ç†æ•°å®ç°ä¸€ä¸ªæ¯”uå¯å˜æ•°æ®ç±»å‹ï¼Œæ”¯æŒåŠ å‡ä¹˜é™¤æ“ä½œ
  * @author jtchen
  * @date 2020/11/23 17:09
  * @version 1.1
@@ -63,7 +63,7 @@ public class Rational {
         return new Rational(numerator / gcd, denominator / gcd);
     }
 
-    //Õ·×ªÏà³ı·¨
+    //è¾—è½¬ç›¸é™¤æ³•
     private int gcd(int a, int b) {
         if (a % b == 0) return b;
         else return gcd(b, a % b);

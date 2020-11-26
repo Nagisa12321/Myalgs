@@ -3,10 +3,11 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/JTChen/PracticalOperation/Matrix.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/JTChen/PracticalOperation/Rational.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/JTChen/PracticalOperation/SmartDate.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/JTChen/PracticalOperation/Rational.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/JTChen/PracticalOperation/SmartDate.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/JTChen/PracticalOperation/Transaction.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/JTChen/PracticalOperation/VisualCounter.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/JTChen/PracticalOperation/VisualCounter.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+    <file url="PROJECT" charset="GBK" />
   </component>
 </project>

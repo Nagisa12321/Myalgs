@@ -7,23 +7,23 @@ import java.awt.*;
 
 
 /************************************************
- * @description Ö§³Ö¼ÓÒ»ºÍ¼õÒ»µÄ²Ù×÷¡£ËûµÄ¹¹Ôìº¯Êý½ÓÊÕ
- * Á½¸ö²ÎÊý<N>ºÍ<max>ÆäÖÐNÖ¸¶¨ÁË²Ù×÷µÄ×î´ó´ÎÊý,maxÖ¸¶¨ÁË
- * ¼ÆÊýÆ÷µÄ×î´ó¾ø¶ÔÖµ¡£×÷Îª¸±×÷ÓÃ£¬ÓÃÍ¼ÏóÏÔÊ¾Ã¿´Î¼ÆÊý±ä»¯ºóµÄÖµ
+ * @description æ”¯æŒåŠ ä¸€å’Œå‡ä¸€çš„æ“ä½œã€‚ä»–çš„æž„é€ å‡½æ•°æŽ¥æ”¶
+ * ä¸¤ä¸ªå‚æ•°<N>å’Œ<max>å…¶ä¸­NæŒ‡å®šäº†æ“ä½œçš„æœ€å¤§æ¬¡æ•°,maxæŒ‡å®šäº†
+ * è®¡æ•°å™¨çš„æœ€å¤§ç»å¯¹å€¼ã€‚ä½œä¸ºå‰¯ä½œç”¨ï¼Œç”¨å›¾è±¡æ˜¾ç¤ºæ¯æ¬¡è®¡æ•°å˜åŒ–åŽçš„å€¼
  * @author jtchen
  * @date 2020/11/22 18:23
  * @version 1.0
  ************************************************/
 public class VisualCounter {
-    private int value;//µ±Ç°Öµ
-    private int n;//µ±Ç°´ÎÊý
-    private final int N;//×î´ó´ÎÊý
-    private final int max;//×î´óÖµ
+    private final int N;//æœ€å¤§æ¬¡æ•°
+    private final int max;//æœ€å¤§å€¼
+    private int value;//å½“å‰å€¼
+    private int n;//å½“å‰æ¬¡æ•°
     private Point2D[] point2DS;
 
     /**
-     * @param N   ²Ù×÷µÄ×î´ó´ÎÊý
-     * @param max ¼ÆÊýÆ÷µÄ×î´ó¾ø¶ÔÖµ
+     * @param N   æ“ä½œçš„æœ€å¤§æ¬¡æ•°
+     * @param max è®¡æ•°å™¨çš„æœ€å¤§ç»å¯¹å€¼
      */
     public VisualCounter(int N, int max) {
         this.n = 0;
@@ -39,7 +39,7 @@ public class VisualCounter {
     }
 
     /**
-     * ×Ô¼õ
+     * è‡ªå‡
      */
     public void decrease() {
         if (Math.abs(value - 1) >= max)
@@ -55,7 +55,7 @@ public class VisualCounter {
     }
 
     /**
-     * ×ÔÔö
+     * è‡ªå¢ž
      */
     public void increase() {
         if (Math.abs(value + 1) >= max)
@@ -71,7 +71,7 @@ public class VisualCounter {
     }
 
     /**
-     * ÇåÁã
+     * æ¸…é›¶
      */
     public void clear() {
         value = 0;

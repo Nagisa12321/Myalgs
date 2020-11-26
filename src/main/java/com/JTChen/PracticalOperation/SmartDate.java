@@ -3,8 +3,8 @@ package com.JTChen.PracticalOperation;
 import java.util.Objects;
 
 /************************************************
- * @description ¸ù¾İDateµÄAPIÊµÏÖÒ»¸ösmartDateÀàĞÍ,
- * ÔÚÈÕÆÚ·Ç·¨Ê±ºòÅ×³öÒ»¸öÒì³£
+ * @description æ ¹æ®Dateçš„APIå®ç°ä¸€ä¸ªsmartDateç±»å‹,
+ * åœ¨æ—¥æœŸéæ³•æ—¶å€™æŠ›å‡ºä¸€ä¸ªå¼‚å¸¸
  * @author jtchen
  * @date 2020/11/22 18:57
  * @version 1.0
@@ -40,7 +40,7 @@ public class SmartDate {
                 if (day >= 0 && day <= 30)
                     return true;
             case 2:
-                //ÈòÄê
+                //é—°å¹´
                 if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
                     if (day >= 0 && day <= 29)
                         return true;
