@@ -55,9 +55,9 @@ public class ResizingArrayStack<Item> implements Iterable<Item> {
     }
 
     /**
-     * 栈中字符串的数量
+     * 栈中元素的数量
      *
-     * @return 栈中字符串的数量
+     * @return 栈中元素的数量
      */
     public int size() {
         return i + 1;

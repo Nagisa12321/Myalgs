@@ -217,6 +217,15 @@ public class MyLinkList<E> {
         return length;
     }
 
+    /**
+     * 判断链表是否为空
+     *
+     * @return 判断空
+     */
+    public boolean isEmpty() {
+        return length == 0;
+    }
+
     @Override
     public String toString() {
         Object[] items = new Object[length];
