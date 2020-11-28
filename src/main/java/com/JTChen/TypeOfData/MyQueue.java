@@ -1,43 +1,104 @@
 package com.JTChen.TypeOfData;
 
-import java.util.NoSuchElementException;
-/**
+/*******************************
  * @author JT Chen
- * @version 1.0
+ * @version 2.0
  * @date 2020/11/05
- */
-public class MyQueue {
-    private ListNode head, last;
+ ******************************/
+public class MyQueue<Item> {
 
+    private Node head, tail;
+    private int length;
+
+    /**
+     * 构建MyQueue
+     */
     public MyQueue() {
-        this.head = new ListNode();
-        this.last = head;
+        this.head = null;
+        this.tail = null;
+        this.length = 0;
     }
 
-    public void add(int i) {
-        ListNode a = new ListNode();
-        a.val = i;
-        head.next = a;
+    /**
+     * 入队
+     *
+     * @param i 入队元素
+     */
+    public void enqueue(Item i) {
+        if (isEmpty()) {
+            head = new Node(i);
+            tail = head;
+        } else {
+            tail.next = new Node(i);
+            tail = tail.next;
+        }
+        length++;
+    }
+
+    /**
+     * 出队元素
+     *
+     * @return 元素值
+     */
+    @SuppressWarnings("UnusedReturnValue")
+    public Item dequeue() {
+        if (isEmpty()) throw new IllegalArgumentException("The queue is empty!");
+        Item tmp = head.item;
         head = head.next;
+        length--;
+        return tmp;
     }
 
-    public int remove() {
-        if (isEmpty())
-            throw new NoSuchElementException();
-        last = last.next;
-        return last.val;
+    /**
+     * 观察队头元素
+     *
+     * @return 队头元素值
+     */
+    public Item peek() {
+        return head.item;
     }
 
-    public int peek() {
-        return last.val;
-    }
-
+    /**
+     * 判断是否为空
+     *
+     * @return 是否为空
+     */
     public boolean isEmpty() {
-        return head == last;
+        return head == null;
     }
-}
 
-class ListNode {
-    public ListNode next;
-    public int val;
+    /**
+     * 返回队列大小
+     *
+     * @return 队列大小
+     */
+    public int size() {
+        return length;
+    }
+
+    @Override
+    public String toString() {
+        Node tmp = head;
+        StringBuilder builder = new StringBuilder("[");
+        while (tmp != null) {
+            builder.append(tmp.item).append(", ");
+            tmp = tmp.next;
+        }
+        builder.append("\b\b]");
+        if (isEmpty()) return "[]";
+        else return builder.toString();
+    }
+
+    /**
+     * 私有链表数据结构
+     */
+    class Node {
+        public Node next;
+        public Item item;
+
+        public Node(Item item) {
+            this.item = item;
+        }
+    }
+
 }
