@@ -93,4 +93,21 @@ public class MyQueueTest {
         System.out.println(queue);
         System.out.println(queue.size());
     }
+
+    @Test
+    public void iterator() {
+        MyQueue<Integer> queue = new MyQueue<>();
+        queue.enqueue(1);
+        queue.enqueue(2);
+        queue.enqueue(3);
+        queue.enqueue(1);
+        queue.enqueue(2);
+        queue.enqueue(3);
+        queue.enqueue(1);
+        queue.enqueue(2);
+        queue.enqueue(3);
+        for (int i : queue) {
+            System.out.println(i);
+        }
+    }
 }

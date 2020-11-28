@@ -1,11 +1,13 @@
 package com.JTChen.TypeOfData;
 
+import java.util.Iterator;
+
 /*******************************
  * @author JT Chen
- * @version 2.0
+ * @version 2.1
  * @date 2020/11/05
  ******************************/
-public class MyQueue<Item> {
+public class MyQueue<Item> implements Iterable<Item> {
 
     private Node head, tail;
     private int length;
@@ -89,10 +91,31 @@ public class MyQueue<Item> {
         else return builder.toString();
     }
 
+    @Override
+    public Iterator<Item> iterator() {
+        return new MyQueueIterator();
+    }
+
+    private class MyQueueIterator implements Iterator<Item> {
+        private Node current = head;
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public Item next() {
+            Item item = current.item;
+            current = current.next;
+            return item;
+        }
+    }
+
     /**
      * 私有链表数据结构
      */
-    class Node {
+    private class Node {
         public Node next;
         public Item item;
 
@@ -100,5 +123,6 @@ public class MyQueue<Item> {
             this.item = item;
         }
     }
+
 
 }
