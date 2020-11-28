@@ -1,12 +1,14 @@
 package com.JTChen.TypeOfData;
 
+import java.util.Iterator;
+
 /************************************************
  * @description 下压栈，链表实现，支持迭代~
  * @author jtchen
  * @date 2020/11/13
- * @version 2.0
+ * @version 2.1
  ************************************************/
-public class MyStack<Item> {
+public class MyStack<Item> implements Iterable<Item> {
     private Node head;//头节点
     private int size;
 
@@ -70,15 +72,34 @@ public class MyStack<Item> {
         head = null;
     }
 
+    @Override
+    public Iterator<Item> iterator() {
+        return new MyStackIterator();
+    }
+
+    private class MyStackIterator implements Iterator<Item> {
+        private Node current = head;
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public Item next() {
+            Item item = current.item;
+            current = current.next;
+            return item;
+        }
+    }
+
     /**
+     * T
      * 私有Node数据结构
      */
     private class Node {
         Node next;
         Item item;
-
-        public Node() {
-        }
 
         public Node(Item item) {
             this.item = item;

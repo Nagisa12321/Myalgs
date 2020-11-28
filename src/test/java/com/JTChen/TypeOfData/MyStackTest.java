@@ -57,4 +57,18 @@ public class MyStackTest {
         a.Empty();
         assertTrue(a.isEmpty());
     }
+
+    @Test
+    public void iterator() {
+        MyStack<Integer> a = new MyStack<>();
+        System.out.println("test1:");
+        for (int i : a) System.out.println(i);
+        System.out.println("test2:");
+        a.push(1);
+        a.push(2);
+        a.push(3);
+        a.push(4);
+        for (int i : a) System.out.println(i);
+
+    }
 }
