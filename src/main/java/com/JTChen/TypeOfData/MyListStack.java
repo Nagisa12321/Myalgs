@@ -8,13 +8,13 @@ package com.JTChen.TypeOfData;
  ************************************************/
 @Deprecated
 public class MyListStack<Item> {
-    private MyLinkList<Item> linkList;
+    private MyLinkedList<Item> linkList;
 
     /**
      * 创建一个空栈
      */
     public MyListStack() {
-        linkList = new MyLinkList<>();
+        linkList = new MyLinkedList<>();
     }
 
     /**
@@ -65,6 +65,6 @@ public class MyListStack<Item> {
      * 清空栈
      */
     public void Empty() {
-        linkList = new MyLinkList<>();
+        linkList = new MyLinkedList<>();
     }
 }

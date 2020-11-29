@@ -2,14 +2,15 @@ package com.JTChen.TypeOfData;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-public class MyLinkListTest {
+@SuppressWarnings("unchecked")
+public class MyLinkedListTest {
     private Object[] arr = {1, 2, 3, 4, 5, 6};
 
     @Test
     public void remove() {
-        MyLinkList<Integer> a = new MyLinkList(arr);
+        MyLinkedList<Integer> a = new MyLinkedList(arr);
         a.remove(3);
         System.out.println(a);
         System.out.println(a);
@@ -18,33 +19,33 @@ public class MyLinkListTest {
 
     @Test
     public void removeHead() {
-        MyLinkList<Integer> a = new MyLinkList(arr);
+        MyLinkedList<Integer> a = new MyLinkedList(arr);
         a.removeHead();
         System.out.println(a);
     }
 
     @Test
     public void removeTail() {
-        MyLinkList<Integer> a = new MyLinkList(arr);
+        MyLinkedList<Integer> a = new MyLinkedList(arr);
         a.removeTail();
         System.out.println(a);
     }
 
     @Test
     public void length() {
-        MyLinkList<Integer> a = new MyLinkList(arr);
+        MyLinkedList<Integer> a = new MyLinkedList(arr);
         assertEquals(6, a.length());
     }
 
     @Test
     public void testToString() {
-        MyLinkList<Integer> a = new MyLinkList(arr);
+        MyLinkedList<Integer> a = new MyLinkedList(arr);
         System.out.println(a);
     }
 
     @Test
     public void get() {
-        MyLinkList<Integer> a = new MyLinkList(arr);
+        MyLinkedList<Integer> a = new MyLinkedList(arr);
         assertEquals(Integer.valueOf(4), a.get(3));
         System.out.println(a);
         System.out.println(a.length());
@@ -52,7 +53,7 @@ public class MyLinkListTest {
 
     @Test
     public void search() {
-        MyLinkList<Integer> a = new MyLinkList(arr);
+        MyLinkedList<Integer> a = new MyLinkedList(arr);
         assertEquals(4, a.search(5));
         assertEquals(-1, a.search(7));
         assertEquals(5, a.search(6));
@@ -62,7 +63,7 @@ public class MyLinkListTest {
 
     @Test
     public void insert() {
-        MyLinkList<Integer> a = new MyLinkList(arr);
+        MyLinkedList<Integer> a = new MyLinkedList(arr);
         a.insert(3, 123);
         System.out.println(a);
         System.out.println(a.length());
@@ -71,20 +72,23 @@ public class MyLinkListTest {
 
     @Test
     public void insertHead() {
-        MyLinkList<Integer> a = new MyLinkList(arr);
+        MyLinkedList<Integer> a = new MyLinkedList(arr);
         a.insertHead(123);
         System.out.println(a);
     }
 
     @Test
     public void insertTail() {
-        MyLinkList<Integer> a = new MyLinkList(arr);
+        MyLinkedList<Integer> a = new MyLinkedList(arr);
         a.insertTail(123);
         System.out.println(a);
     }
 
-    public static void main(String[] args) {
-        MyLinkList<Integer> a = new MyLinkList<>(123);
-//        MyLinkList<Integer> b = new MyLinkList("");
+
+    @Test
+    public void iterator() {
+        MyLinkedList<Integer> a = new MyLinkedList(arr);
+        for (int i : a)
+            System.out.println(i);
     }
 }

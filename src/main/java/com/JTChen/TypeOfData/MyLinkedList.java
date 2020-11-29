@@ -1,14 +1,15 @@
 package com.JTChen.TypeOfData;
 
 import java.util.Arrays;
+import java.util.Iterator;
 
 /************************************************
  * @description
  * @author jtchen
  * @date 2020/11/24 0:21
- * @version 1.0
+ * @version 1.1
  ************************************************/
-public class MyLinkList<E> {
+public class MyLinkedList<E> implements Iterable<E> {
     private Node head;
     private Node tail;
     private int length;
@@ -29,13 +30,13 @@ public class MyLinkList<E> {
     /**
      * 两种初始化方式
      */
-    public MyLinkList() {
+    public MyLinkedList() {
         this.length = 0;
         this.head = new Node();
         this.tail = head;
     }
 
-    public MyLinkList(E val) {
+    public MyLinkedList(E val) {
         this.length = 1;
         this.head = new Node(val);
         this.tail = head;
@@ -46,7 +47,7 @@ public class MyLinkList<E> {
      *
      * @param item 多个val组成的数组
      */
-    public MyLinkList(E[] item) {
+    public MyLinkedList(E[] item) {
         this.head = new Node(item[0]);
         this.tail = head;
         this.length = item.length;
@@ -58,7 +59,7 @@ public class MyLinkList<E> {
         tail = tmp;
     }
 
-    public MyLinkList(String str) {
+    public MyLinkedList(String str) {
 
     }
 
@@ -236,5 +237,31 @@ public class MyLinkList<E> {
         }
         return Arrays.toString(items);
     }
+
+    @Override
+    public Iterator<E> iterator() {
+        return new MyLinkedListIterator();
+    }
+
+    private class MyLinkedListIterator implements Iterator<E> {
+        private Node current;
+
+        public MyLinkedListIterator() {
+            this.current = head;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public E next() {
+            E e = current.val;
+            current = current.next;
+            return e;
+        }
+    }
+
 
 }
