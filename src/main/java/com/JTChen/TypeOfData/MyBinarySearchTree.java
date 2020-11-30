@@ -1,5 +1,11 @@
 package com.JTChen.TypeOfData;
 
+import edu.princeton.cs.algs4.StdRandom;
+
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Set;
+
 /************************************************
  * @description 用内部数据结构TreeNode实现的二叉搜索树
  * ------查询------
@@ -19,7 +25,7 @@ package com.JTChen.TypeOfData;
  * @version 1.0
  ************************************************/
 public class MyBinarySearchTree<Item> {
-    private TreeNode head;
+    private TreeNode root;
 
     /**
      * 构建空二叉搜索树
@@ -29,19 +35,26 @@ public class MyBinarySearchTree<Item> {
     }
 
     /**
-     * 通过数组构建二叉搜索树
+     * 通过数组构建二叉搜索树.遍历一遍数组，然后依次通过insert方法添加
      *
      * @param items 与生成的二叉搜索树的节点顺序
      */
-    public MyBinarySearchTree(Item[] items) {
-
+    public MyBinarySearchTree(Item[] items) throws IllegalAccessException {
+        for (Item i : items) insert(i);
     }
 
     /**
-     * 随机生成二叉搜索树
+     * 随机生成二叉搜索树。<number>为二叉树节点个数，
+     * 借助了ALGS4的Random.uniform方法，生成0-100的随机数
+     * 而且每次都存入HashSet中，达到去重复的功能
      */
-    public void RandomlyGenerated() {
-
+    @SuppressWarnings("unchecked")
+    public void RandomlyGenerated() throws IllegalAccessException {
+        int number = 10;//随机数个数
+        Set<Item> set = new HashSet<>();
+        while (set.size() < 10)
+            set.add((Item) (Integer) StdRandom.uniform(0, 100));
+        for (Item i : set) insert(i);
     }
 
     /**
@@ -53,9 +66,9 @@ public class MyBinarySearchTree<Item> {
      * @param item 所添加的元素
      */
     public void insert(Item item) throws IllegalAccessException {
-        if (isEmpty()) head = new TreeNode(item);
+        if (isEmpty()) root = new TreeNode(item);
         else {
-            TreeNode tmp = head;
+            TreeNode tmp = root;
             while (true) {
                 if ((Integer) item < (Integer) tmp.value) {
                     if (tmp.left == null) {
@@ -86,23 +99,24 @@ public class MyBinarySearchTree<Item> {
     }
 
     /**
-     * 递归中序遍历方法
-     *
-     * @param root 下一个节点值
-     */
-    private void InOrderTraversal(TreeNode root) {
-
-    }
-
-    /**
      * 找寻节点为item的元素
      *
      * @param item 节点值
      * @return 返回该节点
      */
-//    public MyBinarySearchTree<Item> search(Item item) {
-//
-//    }
+    public TreeNode search(Item item) {
+        TreeNode tmp = root;
+        while (true) {
+            if (tmp.value == item) return tmp;
+            else if ((Integer) tmp.value > (Integer) item) {
+                if (tmp.left == null) return null;
+                else tmp = tmp.left;
+            } else {
+                if (tmp.right == null) return null;
+                else tmp = tmp.right;
+            }
+        }
+    }
 
     /**
      * 找寻最大节点位置
@@ -141,21 +155,41 @@ public class MyBinarySearchTree<Item> {
 //    }
 
     /**
+     * 递归中序遍历方法
+     *
+     * @param root 下一个节点值
+     */
+    private void InOrderTraversal(TreeNode root, LinkedList<Item> list) {
+        if (root != null) {
+            InOrderTraversal(root.left, list);
+            list.add(root.value);
+            InOrderTraversal(root.right, list);
+        }
+    }
+
+    /**
      * 中序遍历
      *
      * @return 遍历后以链表形式输出
      */
-//    public LinkedList<Item> InOrderTraversal() {
-//
-//    }
+    public LinkedList<Item> InOrderTraversal() {
+        TreeNode tmp = root;
+        LinkedList<Item> list = new LinkedList<>();
+        InOrderTraversal(tmp, list);
+        return list;
+    }
 
     /**
      * 递归前序遍历方法
      *
      * @param root 下一个节点值
      */
-    public void PreorderTraversal(TreeNode root) {
-
+    private void PreorderTraversal(TreeNode root, LinkedList<Item> list) {
+        if (root != null) {
+            list.add(root.value);
+            InOrderTraversal(root.left, list);
+            InOrderTraversal(root.right, list);
+        }
     }
 
     /**
@@ -163,17 +197,24 @@ public class MyBinarySearchTree<Item> {
      *
      * @return 遍历后以链表的形式输出
      */
-//    public LinkedList<Item> PreorderTraversal() {
-//
-//    }
+    public LinkedList<Item> PreorderTraversal() {
+        TreeNode tmp = root;
+        LinkedList<Item> list = new LinkedList<>();
+        PreorderTraversal(tmp, list);
+        return list;
+    }
 
     /**
      * 递归后序遍历方法
      *
      * @param root 下一个节点值
      */
-    public void PostOrderTraversal(TreeNode root) {
-
+    private void PostOrderTraversal(TreeNode root, LinkedList<Item> list) {
+        if (root != null) {
+            InOrderTraversal(root.left, list);
+            InOrderTraversal(root.right, list);
+            list.add(root.value);
+        }
     }
 
     /**
@@ -181,9 +222,12 @@ public class MyBinarySearchTree<Item> {
      *
      * @return 遍历后以链表的形式输出
      */
-//    public LinkedList<Item> PostOrderTraversal() {
-//
-//    }
+    public LinkedList<Item> PostOrderTraversal() {
+        TreeNode tmp = root;
+        LinkedList<Item> list = new LinkedList<>();
+        PostOrderTraversal(tmp, list);
+        return list;
+    }
 
     /**
      * 判断是否为空,若head为null，则该树木为空
@@ -191,7 +235,7 @@ public class MyBinarySearchTree<Item> {
      * @return 是否为空
      */
     public boolean isEmpty() {
-        return head == null;
+        return root == null;
     }
 
     /**
@@ -203,7 +247,7 @@ public class MyBinarySearchTree<Item> {
 //
 //    }
 
-    private class TreeNode {
+    public class TreeNode {
         public TreeNode left;
         public TreeNode right;
         public TreeNode parent;
