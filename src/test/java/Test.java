@@ -1,3 +1,4 @@
+import java.util.Stack;
 
 /************************************************
  * @description
@@ -7,9 +8,11 @@
  ************************************************/
 public class Test {
     public static void main(String[] args) {
-//        String[] a = (String[]) new Object[10];
-
-        Object[] b = new String[10];
-        b[0] = "1";
+        Stack<Integer> a = new Stack<>();
+        a.push(1);
+        Stack<Integer> b = (Stack<Integer>) a.clone();
+        b.push(2);
+        System.out.println(a.peek());
+        System.out.println(b.peek());
     }
 }

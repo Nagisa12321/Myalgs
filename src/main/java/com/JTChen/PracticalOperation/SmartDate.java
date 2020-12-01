@@ -1,6 +1,9 @@
 package com.JTChen.PracticalOperation;
 
+import com.JTChen.TypeOfData.MyQueue;
+
 import java.util.Objects;
+import java.util.Scanner;
 
 /************************************************
  * @description 根据Date的API实现一个smartDate类型,
@@ -19,6 +22,18 @@ public class SmartDate {
             this.day = day;
             this.month = month;
             this.year = year;
+        } else throw new IllegalArgumentException("Illegal date");
+    }
+
+    public SmartDate(String date) {
+        String[] strings = date.split("/");
+        int year = Integer.parseInt(strings[0]);
+        int month = Integer.parseInt(strings[1]);
+        int day = Integer.parseInt(strings[2]);
+        if (isRealDate(year, month, day)) {
+            this.year = year;
+            this.month = month;
+            this.day = day;
         } else throw new IllegalArgumentException("Illegal date");
     }
 
@@ -85,6 +100,21 @@ public class SmartDate {
         return day == smartDate.day &&
                 month == smartDate.month &&
                 year == smartDate.year;
+    }
+
+    /**
+     * @param str 标准输入
+     * @return 所输出的SmartDate数组
+     */
+    public static SmartDate[] readDates(String str) {
+        var in = new Scanner(str);
+        MyQueue<SmartDate> queue = new MyQueue<>();
+        while (in.hasNext())
+            queue.enqueue(new SmartDate(in.next()));
+        SmartDate[] smartDates = new SmartDate[queue.size()];
+        for (int i = 0; i < smartDates.length; ++i)
+            smartDates[i] = queue.dequeue();
+        return smartDates;
     }
 
     @Override

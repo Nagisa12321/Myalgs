@@ -8,6 +8,7 @@ import java.util.Iterator;
  * @date 2020/11/25 23:19
  * @version 2.0
  ************************************************/
+@Deprecated
 public class ResizingArrayStack<Item> implements Iterable<Item> {
     private Item[] items;
     private int i;//栈指针

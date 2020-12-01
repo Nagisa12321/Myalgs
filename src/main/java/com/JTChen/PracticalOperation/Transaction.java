@@ -1,6 +1,9 @@
 package com.JTChen.PracticalOperation;
 
+import com.JTChen.TypeOfData.MyQueue;
 import edu.princeton.cs.algs4.Date;
+
+import java.util.Scanner;
 
 /************************************************
  * @description
@@ -77,6 +80,21 @@ public class Transaction implements Comparable<Transaction> {
         hash = 31 * hash + when.hashCode();
         hash = 31 * hash + ((Double) amount).hashCode();
         return hash;
+    }
+
+    /**
+     * @param str 标准输入
+     * @return 所输出的Transaction数组
+     */
+    public static Transaction[] readTransactions(String str) {
+        var in = new Scanner(str);
+        MyQueue<Transaction> queue = new MyQueue<>();
+        while (in.hasNext())
+            queue.enqueue(new Transaction(in.next()));
+        Transaction[] transactions = new Transaction[queue.size()];
+        for (int i = 0; i < transactions.length; ++i)
+            transactions[i] = queue.dequeue();
+        return transactions;
     }
 
     public static void main(String[] args) {
