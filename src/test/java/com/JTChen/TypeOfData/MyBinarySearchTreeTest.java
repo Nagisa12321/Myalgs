@@ -23,7 +23,7 @@ public class MyBinarySearchTreeTest {
     }
 
     @Test
-    public void randomlyGenerated() throws IllegalAccessException {
+    public void randomlyGenerated() {
         MyBinarySearchTree<Integer> tree = new MyBinarySearchTree<>();
         tree.RandomlyGenerated();
 
@@ -58,5 +58,26 @@ public class MyBinarySearchTreeTest {
         Integer[] test = {5, 4, 8, 2, 7};
         MyBinarySearchTree<Integer> tree = new MyBinarySearchTree<>(test);
         MyBinarySearchTree.TreeNode node = tree.search(99);
+    }
+
+    @Test
+    public void searchMax() {
+        MyBinarySearchTree<Integer> tree = new MyBinarySearchTree<>();
+        tree.RandomlyGenerated();
+        List<Integer> list = tree.InOrderTraversal();
+        System.out.println(Arrays.toString(list.toArray()));
+        System.out.println(tree.searchMax());
+        System.out.println(tree.searchMin());
+
+    }
+
+    @Test
+    public void searchMin() {
+        MyBinarySearchTree<Integer> tree = new MyBinarySearchTree<>();
+        tree.RandomlyGenerated();
+        List<Integer> list = tree.InOrderTraversal();
+        System.out.println(Arrays.toString(list.toArray()));
+        System.out.println(tree.searchMin());
+        System.out.println(tree.searchMax());
     }
 }

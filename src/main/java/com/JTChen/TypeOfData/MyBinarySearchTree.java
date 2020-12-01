@@ -49,12 +49,17 @@ public class MyBinarySearchTree<Item> {
      * 而且每次都存入HashSet中，达到去重复的功能
      */
     @SuppressWarnings("unchecked")
-    public void RandomlyGenerated() throws IllegalAccessException {
+    public void RandomlyGenerated() {
         int number = 10;//随机数个数
         Set<Item> set = new HashSet<>();
-        while (set.size() < 10)
+        while (set.size() < number)
             set.add((Item) (Integer) StdRandom.uniform(0, 100));
-        for (Item i : set) insert(i);
+        for (Item i : set)
+            try {
+                insert(i);
+            } catch (IllegalAccessException ignored) {
+            }
+
     }
 
     /**
@@ -99,7 +104,11 @@ public class MyBinarySearchTree<Item> {
     }
 
     /**
-     * 找寻节点为item的元素
+     * 找寻节点为item的元素:先定义tmp节点作为遍历节点，如果tmp之
+     * value值等于所求value，则直接返回tmp，若tmp之value值小于
+     * 所要求value值则说明tmp偏左，应该向右移动，然后观察tmp是否有
+     * 右节点，若没有右节点，则说明item值在本二叉树中不存在，返回null
+     * 如此往复。
      *
      * @param item 节点值
      * @return 返回该节点
@@ -119,29 +128,45 @@ public class MyBinarySearchTree<Item> {
     }
 
     /**
-     * 找寻最大节点位置
+     * 找寻最大节点位置：如果root为null，则说明二叉树为空
+     * 因此也没有最大节点，若不为空，则一直向右搜索，直到没有右
+     * 节点为止，
      *
-     * @return 返回该节点
+     * @return 返回该节点值
      */
-//    public MyBinarySearchTree<Item> searchMax() {
-//
-//    }
+    public Item searchMax() {
+        if (root == null) return null;
+        else {
+            TreeNode tmp = root;
+            while (tmp.right != null)
+                tmp = tmp.right;
+            return tmp.value;
+        }
+    }
 
     /**
      * 找寻最小节点位置
+     * 同上~
      *
      * @return 返回该节点
      */
-//    public MyBinarySearchTree<Item> searchMin() {
-//
-//    }
+    public Item searchMin() {
+        if (root == null) return null;
+        else {
+            TreeNode tmp = root;
+            while (tmp.left != null)
+                tmp = tmp.left;
+            return tmp.value;
+        }
+    }
 
     /**
      * 寻找前驱动
      *
      * @return 前驱节点
+     * @param item
      */
-//    public MyBinarySearchTree<Item> precursor() {
+//    public Item precursor(Item item) {
 //
 //    }
 
