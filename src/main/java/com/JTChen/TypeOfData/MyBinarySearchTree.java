@@ -161,6 +161,22 @@ public class MyBinarySearchTree<Item> {
     }
 
     /**
+     * 找寻最小节点，是为找前驱而准备的方法
+     *
+     * @param root 当前节点
+     * @return 返回当前节点的最小子节点
+     */
+    private TreeNode searchMin(TreeNode root) {
+        if (root == null) return null;
+        else {
+            TreeNode tmp = root;
+            while (tmp.left != null)
+                tmp = tmp.left;
+            return tmp;
+        }
+    }
+
+    /**
      * 寻找前驱动
      *
      * @return 前驱节点
