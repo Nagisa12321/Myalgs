@@ -5,6 +5,9 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 public class MyBinarySearchTreeTest {
 //    public static void main(String[] args) throws IllegalAccessException {
 //        Integer[] test = {5,4,8,2,7};
@@ -79,5 +82,26 @@ public class MyBinarySearchTreeTest {
         System.out.println(Arrays.toString(list.toArray()));
         System.out.println(tree.searchMin());
         System.out.println(tree.searchMax());
+    }
+
+    @Test
+    public void precursor() throws IllegalAccessException {
+        Integer[] test = {15, 6, 23, 4, 7, 71, 5, 50};
+        MyBinarySearchTree<Integer> tree = new MyBinarySearchTree<>(test);
+        assertEquals(6, (int) tree.precursor(7));
+        assertEquals(50, (int) tree.precursor(71));
+        assertEquals(23, (int) tree.precursor(50));
+        assertEquals(7, (int) tree.precursor(15));
+        assertNull(tree.precursor(4));
+    }
+
+    @Test
+    public void successor() throws IllegalAccessException {
+        Integer[] test = {15, 6, 23, 4, 7, 71, 5, 50};
+        MyBinarySearchTree<Integer> tree = new MyBinarySearchTree<>(test);
+        assertEquals(15, (int) tree.successor(7));
+        assertEquals(23, (int) tree.successor(15));
+        assertEquals(50, (int) tree.successor(23));
+        assertNull(tree.successor(71));
     }
 }

@@ -24,7 +24,7 @@ import java.util.Set;
  * @date 2020/11/28 11:38
  * @version 1.0
  ************************************************/
-public class MyBinarySearchTree<Item> {
+public class MyBinarySearchTree<Item extends Comparable<Item>> {
     private TreeNode root;
 
     /**
@@ -177,23 +177,66 @@ public class MyBinarySearchTree<Item> {
     }
 
     /**
-     * 寻找前驱动
+     * 找寻最大节点，是为找前驱而准备的方法
      *
-     * @return 前驱节点
-     * @param item
+     * @param root 当前节点
+     * @return 返回当前节点的最大子节点
      */
-//    public Item precursor(Item item) {
-//
-//    }
+    private TreeNode searchMax(TreeNode root) {
+        if (root == null) return null;
+        else {
+            TreeNode tmp = root;
+            while (tmp.right != null)
+                tmp = tmp.right;
+            return tmp;
+        }
+    }
+
+    /**
+     * 寻找前驱
+     *
+     * @param item 节点值
+     * @return 前驱节点
+     */
+    public Item precursor(Item item) {
+        //找到该值所对应的节点
+        TreeNode node = search(item);
+        if (node == null) return null;
+        else if (node.left != null) return searchMax(node.left).value;
+        else {
+            TreeNode t = node, p = t.parent;
+            while (p != null && p.left == t) {
+                t = p;
+                p = p.parent;
+            }
+            if (p == null) return null;
+            else return p.value;
+        }
+    }
 
     /**
      * 寻找后继
      *
      * @return 后继节点
      */
-//    public MyBinarySearchTree<Item> successor() {
-//
-//    }
+    public Item successor(Item item) {
+        //在二叉树中找出该值的相应节点
+        TreeNode node = search(item);
+        //如果找不到则返回空
+        if (node == null) return null;
+            //如果该节点存在右儿子节点，则找寻右儿子最大
+        else if (node.right != null) return searchMin(node.right).value;
+        else {
+            //不然则利用parent属性向上遍历
+            TreeNode t = node, p = t.parent;
+            while (p != null && p.right == t) {
+                t = p;
+                p = p.parent;
+            }
+            if (p == null) return null;
+            else return p.value;
+        }
+    }
 
     /**
      * 递归中序遍历方法

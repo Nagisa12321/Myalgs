@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <testsuite tests="8" failures="0" name="com.JTChen.TypeOfData.MyBinarySearchTreeTest" time="0.001" errors="0" skipped="0">
   <properties>
-    <property name="idea.version" value="2020.2.4"/>
+    <property name="idea.version" value="2020.3"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="14.0.2+12-46"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-14.0.2\bin"/>
@@ -45,7 +45,7 @@
     <property name="java.class.path" value="D:\apache-maven-3.6.3\boot\plexus-classworlds-2.6.0.jar;D:\apache-maven-3.6.3\boot\plexus-classworlds.license"/>
     <property name="java.vm.specification.version" value="14"/>
     <property name="sun.arch.data.model" value="64"/>
-    <property name="sun.java.command" value="org.codehaus.classworlds.Launcher -Didea.version=2020.2.4 -s D:\apache-maven-3.6.3\conf\settings.xml -Dmaven.repo.local=D:\theCode\Maven deploy -P jdk-14"/>
+    <property name="sun.java.command" value="org.codehaus.classworlds.Launcher -Didea.version=2020.3 -s D:\apache-maven-3.6.3\conf\settings.xml -Dmaven.repo.local=D:\theCode\Maven package -P jdk-14"/>
     <property name="java.home" value="C:\Program Files\Java\jdk-14.0.2"/>
     <property name="user.language" value="zh"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
@@ -66,6 +66,6 @@
   <testcase classname="com.JTChen.TypeOfData.MyBinarySearchTreeTest" name="search" time="0"/>
   <testcase classname="com.JTChen.TypeOfData.MyBinarySearchTreeTest" name="postOrderTraversal" time="0"/>
   <testcase classname="com.JTChen.TypeOfData.MyBinarySearchTreeTest" name="inOrderTraversal" time="0"/>
-  <testcase classname="com.JTChen.TypeOfData.MyBinarySearchTreeTest" name="searchMax" time="0.001"/>
-  <testcase classname="com.JTChen.TypeOfData.MyBinarySearchTreeTest" name="searchMin" time="0"/>
+  <testcase classname="com.JTChen.TypeOfData.MyBinarySearchTreeTest" name="searchMax" time="0"/>
+  <testcase classname="com.JTChen.TypeOfData.MyBinarySearchTreeTest" name="searchMin" time="0.001"/>
 </testsuite>
