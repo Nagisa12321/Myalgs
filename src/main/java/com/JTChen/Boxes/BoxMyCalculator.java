@@ -1,8 +1,8 @@
 package com.JTChen.Boxes;
 
+import com.JTChen.PracticalOperation.MyCalculator;
+
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class BoxMyCalculator extends JDialog {
     private JPanel contentPane;
@@ -22,14 +22,11 @@ public class BoxMyCalculator extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
-        button1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String str = textField1.getText();
-                String result = MyCalculator.Calculate(str);
-                textField1.removeAll();
-                textField2.setText(result);
-            }
+        button1.addActionListener(e -> {
+            String str = textField1.getText();
+            String result = MyCalculator.Calculate(str);
+            textField1.removeAll();
+            textField2.setText(result);
         });
     }
 }

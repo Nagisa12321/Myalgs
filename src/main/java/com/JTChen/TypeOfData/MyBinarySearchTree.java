@@ -4,6 +4,7 @@ import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 /************************************************
@@ -96,11 +97,45 @@ public class MyBinarySearchTree<Item extends Comparable<Item>> {
 
     /**
      * 向二叉搜索树中删除元素
+     * 如果他是叶子节点(左右儿子均为空),直接删除
+     * 如果他只有一个孩子, 那么用他的孩子代替他
+     * 如果他有两个孩子，则用他的后继节点代替他
      *
      * @param item 所要删除的元素
      */
     public void remove(Item item) {
-
+        TreeNode node = search(item);
+        TreeNode parent = node.parent;
+        //if node is a leaf, delete node
+        if (node.left == null && node.right == null) {
+            if ((Integer) parent.value > (Integer) node.value)
+                parent.left = null;
+            else parent.right = null;
+        } else if (node.left != null && node.right == null) {
+            //if have a children, replace it;
+            node = node.left;
+            node.parent = parent;
+        } else if (node.left == null) {
+            node = node.right;
+            node.parent = parent;
+        } else {
+            //if have two children, replace with successor;
+            TreeNode left = node.left;
+            TreeNode right = node.right;
+            TreeNode successor = searchMin(node.right);
+            if (successor.value == right.value) {
+                node = right;
+                node.left = left;
+            } else {
+                successor.parent.left = successor.right;
+                node = successor;
+                node.left = left;
+                node.right = right;
+            }
+            node.parent = parent;
+            if ((Integer) parent.value > (Integer) node.value) parent.left = node;
+            else parent.right = node;
+        }
     }
 
     /**
@@ -256,9 +291,9 @@ public class MyBinarySearchTree<Item extends Comparable<Item>> {
      *
      * @return 遍历后以链表形式输出
      */
-    public LinkedList<Item> InOrderTraversal() {
+    public List<Item> InOrderTraversal() {
         TreeNode tmp = root;
-        LinkedList<Item> list = new LinkedList<>();
+        var list = new LinkedList<Item>();
         InOrderTraversal(tmp, list);
         return list;
     }
@@ -281,9 +316,9 @@ public class MyBinarySearchTree<Item extends Comparable<Item>> {
      *
      * @return 遍历后以链表的形式输出
      */
-    public LinkedList<Item> PreorderTraversal() {
+    public List<Item> PreorderTraversal() {
         TreeNode tmp = root;
-        LinkedList<Item> list = new LinkedList<>();
+        var list = new LinkedList<Item>();
         PreorderTraversal(tmp, list);
         return list;
     }
@@ -306,9 +341,9 @@ public class MyBinarySearchTree<Item extends Comparable<Item>> {
      *
      * @return 遍历后以链表的形式输出
      */
-    public LinkedList<Item> PostOrderTraversal() {
+    public List<Item> PostOrderTraversal() {
         TreeNode tmp = root;
-        LinkedList<Item> list = new LinkedList<>();
+        var list = new LinkedList<Item>();
         PostOrderTraversal(tmp, list);
         return list;
     }
@@ -327,19 +362,31 @@ public class MyBinarySearchTree<Item extends Comparable<Item>> {
      *
      * @return 遍历后以链表的形式输出
      */
-//    public LinkedList<Item> LevelTraversal() {
-//
-//    }
+    public List<LinkedList<Item>> LevelTraversal() {
+        var list = new LinkedList<LinkedList<Item>>();
+        if (root == null) return list;
+        TreeNode tmp = root;
+        MyQueue<TreeNode> queue = new MyQueue<>();
+        queue.enqueue(tmp);
+        while (!queue.isEmpty()) {
+            var list1 = new LinkedList<Item>();
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                tmp = queue.dequeue();
+                list1.add(tmp.value);
+                if (tmp.left != null) queue.enqueue(tmp.left);
+                if (tmp.right != null) queue.enqueue(tmp.right);
+            }
+            list.add(list1);
+        }
+        return list;
+    }
 
     public class TreeNode {
         public TreeNode left;
         public TreeNode right;
         public TreeNode parent;
         public Item value;
-
-        public TreeNode() {
-
-        }
 
         public TreeNode(Item value) {
             this.value = value;

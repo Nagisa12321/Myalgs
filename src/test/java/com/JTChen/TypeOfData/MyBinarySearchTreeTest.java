@@ -9,12 +9,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class MyBinarySearchTreeTest {
-//    public static void main(String[] args) throws IllegalAccessException {
-//        Integer[] test = {5,4,8,2,7};
-//        MyBinarySearchTree<Integer> a = new MyBinarySearchTree<>();
-//        MyBinarySearchTree<Integer> b = new MyBinarySearchTree(test);
-////        b.insert(2);
-//    }
 
     @Test
     public void insert() throws IllegalAccessException {
@@ -56,11 +50,11 @@ public class MyBinarySearchTreeTest {
         System.out.println(Arrays.toString(list.toArray()));
     }
 
+    @SuppressWarnings("unused")
     @Test
     public void search() throws IllegalAccessException {
         Integer[] test = {5, 4, 8, 2, 7};
         MyBinarySearchTree<Integer> tree = new MyBinarySearchTree<>(test);
-        MyBinarySearchTree.TreeNode node = tree.search(99);
     }
 
     @Test
@@ -103,5 +97,23 @@ public class MyBinarySearchTreeTest {
         assertEquals(23, (int) tree.successor(15));
         assertEquals(50, (int) tree.successor(23));
         assertNull(tree.successor(71));
+    }
+
+    @Test
+    public void remove() throws IllegalAccessException {
+        Integer[] test = {41, 65, 50, 91, 56, 72, 99, 73};
+        MyBinarySearchTree<Integer> tree = new MyBinarySearchTree<>(test);
+        List<Integer> list = tree.InOrderTraversal();
+        System.out.println(Arrays.toString(list.toArray()));
+        tree.remove(65);
+        List<Integer> list2 = tree.InOrderTraversal();
+        System.out.println(Arrays.toString(list2.toArray()));
+    }
+
+    @Test
+    public void levelTraversal() throws IllegalAccessException {
+        Integer[] test = {41, 65, 50, 91, 56, 72, 99, 73};
+        MyBinarySearchTree<Integer> tree = new MyBinarySearchTree<>(test);
+        System.out.println(Arrays.toString(tree.LevelTraversal().toArray()));
     }
 }
