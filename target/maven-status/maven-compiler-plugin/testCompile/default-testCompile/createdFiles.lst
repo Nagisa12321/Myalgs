@@ -1,13 +1,12 @@
-com\JTChen\PracticalOperation\AccumulatorTest.class
-com\JTChen\TypeOfData\KMPTest.class
-com\JTChen\TypeOfData\MyStackTest.class
-Test.class
-com\JTChen\TypeOfData\MyBagTest.class
 com\JTChen\PracticalOperation\TransactionTest.class
+com\JTChen\PracticalOperation\AccumulatorTest.class
 com\JTChen\TypeOfData\MyLinkedListTest.class
 com\JTChen\TypeOfData\MyQueueTest.class
 com\JTChen\PracticalOperation\VisualAccmulatorTest.class
 com\JTChen\TypeOfData\FixedCapacityStackOfStringsTest.class
+com\JTChen\TypeOfData\KMPTest.class
+com\JTChen\TypeOfData\MyStackTest.class
 com\JTChen\TypeOfData\ResizingArrayStackTest.class
 com\JTChen\TypeOfData\MyListStackTest.class
+com\JTChen\TypeOfData\MyBagTest.class
 com\JTChen\TypeOfData\MyBinarySearchTreeTest.class

@@ -1,7 +1,6 @@
 package com.JTChen.TypeOfData;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 
 /************************************************
  * @description 下压栈，链表实现，支持迭代~
@@ -114,13 +113,15 @@ public class MyStack<Item> implements Iterable<Item> {
 
     @Override
     public String toString() {
+        if (head == null) return null;
+        StringBuilder builder = new StringBuilder("[");
         Node tmp = head;
-        LinkedList<Item> list = new LinkedList<>();
         while (tmp != null) {
-            list.add(tmp.item);
+            builder.append(tmp.item).append(", ");
             tmp = tmp.next;
         }
-        return list.toString();
+        builder.delete(builder.length() - 2, builder.length()).append("]");
+        return builder.toString();
     }
 }
 

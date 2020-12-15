@@ -6,7 +6,7 @@
 
     <groupId>com.JtChen</groupId>
     <artifactId>Myalgs</artifactId>
-    <version>2.2.1</version>
+    <version>2.2.6</version>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -68,18 +68,6 @@
                     <encoding>utf-8</encoding>
                 </configuration>
             </plugin>
-            <!--            <plugin>-->
-            <!--                <groupId>org.apache.maven.plugins</groupId>-->
-            <!--                <artifactId>maven-site-plugin</artifactId>-->
-            <!--                <executions>-->
-            <!--                    <execution>-->
-            <!--                        <id>attach-sources</id>-->
-            <!--                        <goals>-->
-            <!--                            <goal>jar</goal>-->
-            <!--                        </goals>-->
-            <!--                    </execution>-->
-            <!--                </executions>-->
-            <!--            </plugin>-->
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -110,29 +98,6 @@
                 </executions>
             </plugin>
 
-            <!--            <plugin>-->
-            <!--                <groupId>org.apache.maven.plugins</groupId>-->
-            <!--                <artifactId>maven-javadoc-plugin</artifactId>-->
-            <!--                <version>2.9.1</version>-->
-            <!--                <configuration>-->
-            <!--                    <aggregate>true</aggregate>-->
-            <!--                </configuration>-->
-            <!--                <executions>-->
-            <!--                    <execution>-->
-            <!--                        <id>attach-javadocs</id>-->
-            <!--                        <phase>package</phase>-->
-            <!--                        <goals>-->
-            <!--                            <goal>jar</goal>-->
-            <!--                        </goals>-->
-            <!--                        &lt;!&ndash;                                    <configuration>&ndash;&gt;-->
-            <!--                        &lt;!&ndash;                                        <additionalparam>-Xdoclint:none</additionalparam>&ndash;&gt;-->
-            <!--                        &lt;!&ndash;                                    </configuration>&ndash;&gt;-->
-            <!--                        &lt;!&ndash;                        <configuration>&ndash;&gt;-->
-            <!--                        &lt;!&ndash;                            <additionalparam>${additionalparam}</additionalparam>&ndash;&gt;-->
-            <!--                        &lt;!&ndash;                        </configuration>&ndash;&gt;-->
-            <!--                    </execution>-->
-            <!--                </executions>-->
-            <!--            </plugin>-->
         </plugins>
 
     </build>
