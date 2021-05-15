@@ -8,17 +8,17 @@ package com.JTChen.Algorithm;
 public class QuickSort {
 
     public static void Sort(int[] arr) {
-        quicksort(arr,0,arr.length - 1);
+        quicksort(arr, 0, arr.length - 1);
     }
 
     private static void quicksort(int[] arr, int left, int right) {
         if (left < right) {
-            //获取下标
-            int index = getIndex(arr, left,right);
-            //递归操作
-            quicksort(arr,left,index - 1);
-            quicksort(arr,index + 1,right);
-        }
+			//获取下标
+			int index = getIndex(arr, left, right);
+			//递归操作
+			quicksort(arr, left, index - 1);
+			quicksort(arr, index + 1, right);
+		}
     }
 
     //获取中间值下标

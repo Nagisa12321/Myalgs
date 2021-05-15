@@ -1,6 +1,6 @@
 package com.JTChen.PracticalOperation;
 
-import com.JTChen.TypeOfData.MyQueue;
+import com.JTChen.typeofdata.MyQueue;
 
 import java.util.Objects;
 import java.util.Scanner;

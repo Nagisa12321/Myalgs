@@ -1,6 +1,6 @@
 package com.JTChen.PracticalOperation;
 
-import com.JTChen.TypeOfData.MyQueue;
+import com.JTChen.typeofdata.MyQueue;
 import edu.princeton.cs.algs4.Date;
 
 import java.util.Scanner;
