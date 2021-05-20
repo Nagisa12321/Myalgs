@@ -1,6 +1,6 @@
 package com.JTChen.typeofdata;
 
-import com.JTChen.Algorithm.KMP;
+import com.JTChen.algorithm.KMP;
 
 public class KMPTest {
     public static void main(String[] args) {

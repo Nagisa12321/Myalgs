@@ -1,4 +1,4 @@
-package com.JTChen.PracticalOperation;
+package com.JTChen.practicaloperation;
 
 /**
  * 判断两个数是否互质

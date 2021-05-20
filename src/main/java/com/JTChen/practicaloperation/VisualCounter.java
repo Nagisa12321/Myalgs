@@ -1,4 +1,4 @@
-package com.JTChen.PracticalOperation;
+package com.JTChen.practicaloperation;
 
 import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.StdDraw;

@@ -1,4 +1,4 @@
-package com.JTChen.Algorithm;
+package com.JTChen.algorithm;
 
 import edu.princeton.cs.algs4.Stopwatch;
 

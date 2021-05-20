@@ -1,4 +1,4 @@
-package com.JTChen.PracticalOperation;
+package com.JTChen.practicaloperation;
 
 import java.util.Arrays;
 

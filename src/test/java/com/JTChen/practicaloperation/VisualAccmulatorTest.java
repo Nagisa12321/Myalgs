@@ -1,4 +1,4 @@
-package com.JTChen.PracticalOperation;
+package com.JTChen.practicaloperation;
 
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
