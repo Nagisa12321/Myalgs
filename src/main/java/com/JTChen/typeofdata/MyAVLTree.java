@@ -55,23 +55,22 @@ public class MyAVLTree<E> extends AbstractCollection<E> {
 				cur = cur.right;
 			} else if (compare(cur.val, obj) > 0) {
 				cur = cur.left;
-			} else return cur;
+			} else
+				return cur;
 		}
 		return null;
 	}
 
 	@SuppressWarnings("unchecked")
 	private int compare(Object o1, Object o2) {
-		return this.comparator == null ? ((Comparable<? super E>) o1).compareTo((E) o2) :
-				comparator.compare((E) o1, (E) o2);
+		return this.comparator == null ? ((Comparable<? super E>) o1).compareTo((E) o2)
+				: comparator.compare((E) o1, (E) o2);
 	}
-
 
 	@Override
 	public Iterator<E> iterator() {
 		return inorder().iterator();
 	}
-
 
 	@Override
 	public boolean add(E value) {
@@ -85,7 +84,7 @@ public class MyAVLTree<E> extends AbstractCollection<E> {
 				// just contain this value
 				if (compare(cur.val, value) == 0)
 					return false;
-					// cur.val < value
+				// cur.val < value
 				else if (compare(cur.val, value) < 0) {
 					if (cur.right == null) {
 						cur.right = newNode;
@@ -113,13 +112,15 @@ public class MyAVLTree<E> extends AbstractCollection<E> {
 	}
 
 	private void updateHeight(Node<E> node) {
-		if (node == null) return;
+		if (node == null)
+			return;
 		node.height = height(node);
 		updateHeight(node.parent);
 	}
 
 	private void rotate(Node<E> node) {
-		if (node == null) return;
+		if (node == null)
+			return;
 		Node<E> parent = node.parent;
 		Node<E> newNode = null;
 
@@ -156,9 +157,8 @@ public class MyAVLTree<E> extends AbstractCollection<E> {
 	}
 
 	private int height(Node<E> node) {
-		return node == null ?
-				0 :
-				1 + Math.max(node.left == null ? 0 : node.left.height, node.right == null ? 0 : node.right.height);
+		return node == null ? 0
+				: 1 + Math.max(node.left == null ? 0 : node.left.height, node.right == null ? 0 : node.right.height);
 	}
 
 	private Node<E> leftRotate(Node<E> T) {
@@ -166,7 +166,8 @@ public class MyAVLTree<E> extends AbstractCollection<E> {
 		w.parent = T.parent;
 		T.parent = w;
 		T.right = w.left;
-		if (w.left != null) w.left.parent = T;
+		if (w.left != null)
+			w.left.parent = T;
 		w.left = T;
 		// update the height of T and then w
 		T.height = height(T);
@@ -180,7 +181,8 @@ public class MyAVLTree<E> extends AbstractCollection<E> {
 		w.parent = T.parent;
 		T.parent = w;
 		T.left = w.right;
-		if (w.right != null) w.right.parent = T;
+		if (w.right != null)
+			w.right.parent = T;
 		w.right = T;
 		// update the height of T and then w
 		T.height = height(T);
@@ -200,13 +202,13 @@ public class MyAVLTree<E> extends AbstractCollection<E> {
 	}
 
 	private void inorder(Node<E> node, List<E> list) {
-		if (node == null) return;
+		if (node == null)
+			return;
 
 		inorder(node.left, list);
 		list.add(node.val);
 		inorder(node.right, list);
 	}
-
 
 	public List<E> preorder() {
 		List<E> list = new ArrayList<>();
@@ -215,28 +217,32 @@ public class MyAVLTree<E> extends AbstractCollection<E> {
 	}
 
 	private void preorder(Node<E> node, List<E> list) {
-		if (node == null) return;
+		if (node == null)
+			return;
 
 		list.add(node.val);
 		preorder(node.left, list);
 		preorder(node.right, list);
 	}
 
-
 	public boolean isHeightBalanced() {
 		return isHeightBalanced(this.root);
 	}
 
 	private boolean isHeightBalanced(Node<E> node) {
-		if (node == null) return true;
-		if (Math.abs(bf(node)) >= 2) return false;
-		else return isHeightBalanced(node.left) && isHeightBalanced(node.right);
+		if (node == null)
+			return true;
+		if (Math.abs(bf(node)) >= 2)
+			return false;
+		else
+			return isHeightBalanced(node.left) && isHeightBalanced(node.right);
 	}
 
 	@Override
 	public boolean remove(Object o) {
 		Node<E> removeNode = searchNode(o);
-		if (removeNode == null) return false;
+		if (removeNode == null)
+			return false;
 		// just find the node to remove, it is cur.
 		Node<E> removeParent = remove(removeNode);
 		// rotate up the parent
@@ -247,8 +253,10 @@ public class MyAVLTree<E> extends AbstractCollection<E> {
 	// will return the parent.
 	private Node<E> remove(Node<E> removeNode) {
 		int children = 0;
-		if (removeNode.left != null) children++;
-		if (removeNode.right != null) children++;
+		if (removeNode.left != null)
+			children++;
+		if (removeNode.right != null)
+			children++;
 		Node<E> parent = removeNode.parent;
 
 		if (children == 0) {
@@ -259,24 +267,33 @@ public class MyAVLTree<E> extends AbstractCollection<E> {
 			} else {
 				if (removeNode == parent.left)
 					parent.left = null;
-				else parent.right = null;
+				else
+					parent.right = null;
 				updateHeight(parent);
 			}
 		} else if (children == 1) {
 			if (parent == null) {
 				// it's the root and have a children
-				if (removeNode.left != null) root = removeNode.left;
-				else root = removeNode.right;
+				if (removeNode.left != null)
+					root = removeNode.left;
+				else
+					root = removeNode.right;
 			} else {
 				if (removeNode == parent.left) {
-					if (removeNode.left != null) parent.left = removeNode.left;
-					else parent.left = removeNode.right;
+					if (removeNode.left != null)
+						parent.left = removeNode.left;
+					else
+						parent.left = removeNode.right;
 				} else {
-					if (removeNode.left != null) parent.right = removeNode.left;
-					else parent.right = removeNode.right;
+					if (removeNode.left != null)
+						parent.right = removeNode.left;
+					else
+						parent.right = removeNode.right;
 				}
-				if (removeNode.left != null) removeNode.left.parent = parent;
-				else removeNode.right.parent = parent;
+				if (removeNode.left != null)
+					removeNode.left.parent = parent;
+				else
+					removeNode.right.parent = parent;
 				updateHeight(parent);
 			}
 		} else {
@@ -332,9 +349,7 @@ public class MyAVLTree<E> extends AbstractCollection<E> {
 
 		@Override
 		public String toString() {
-			return new StringJoiner(", ", Node.class.getSimpleName() + "[", "]")
-					.add("val=" + val)
-					.toString();
+			return new StringJoiner(", ", Node.class.getSimpleName() + "[", "]").add("val=" + val).toString();
 		}
 	}
 

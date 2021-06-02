@@ -1,47 +1,126 @@
 package com.JTChen.typeofdata;
 
-import java.util.AbstractQueue;
-import java.util.Comparator;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * @author jtchen
  * @version 1.0
- * @date 2020/12/29 15:20
+ * @date 2021/5/21 10:55
  */
 @SuppressWarnings("unchecked")
 public class MyPriorityQueue<E> extends AbstractQueue<E> {
 
-	// 默认初始值
-	private static final int DEFAULT_INITIAL_VALUE = 16;
+	private Object[] heap;
 
-	public Object[] tree;
-	private int n;
+	private final Comparator<E> comparator;
 
-	private Comparator<? super E> comparator;
+	private int size;
+
+	private static final int DEFAULT_INITIAL_CAPACITY = 11;
 
 	public MyPriorityQueue() {
-		tree = new Object[DEFAULT_INITIAL_VALUE];
-		n = 0;
+		this(DEFAULT_INITIAL_CAPACITY, null);
 	}
 
-	public MyPriorityQueue(Comparator<E> comparator) {
-		tree = new Object[DEFAULT_INITIAL_VALUE];
-		n = 0;
+	public MyPriorityQueue(int initialCapacity) {
+		this(initialCapacity, null);
+	}
+
+	public MyPriorityQueue(Collection<E> collection) {
+		this(DEFAULT_INITIAL_CAPACITY, null);
+		addAll(collection);
+	}
+
+	public MyPriorityQueue(int initialCapacity, Comparator<E> comparator) {
+		this.heap = new Object[initialCapacity];
 		this.comparator = comparator;
+		this.size = 0;
 	}
 
-	// 自底向上的heapify, 用于增加节点使用
-	private void heapify_bottom(int i) {
+	@Override
+	public Iterator<E> iterator() {
+		List<E> list = new ArrayList<>();
+		for (int i = 0; i < size; i++) {
+			list.add((E) heap[i]);
+		}
+		return list.iterator();
+	}
+
+	@Override
+	public int size() {
+		return this.size;
+	}
+
+	@Override
+	public boolean offer(E e) {
+		if (isFull()) raise();
+		heap[size] = e;
+		heapifyUp(this.heap, (size++ - 1) / 2, size);
+		return true;
+	}
+
+	@Override
+	public E poll() {
+		if (isEmpty()) return null;
+		E result = (E) heap[0];
+		swap(this.heap, 0, --size);
+		heapifyDown(this.heap, 0, size);
+		return result;
+	}
+
+	@Override
+	public E peek() {
+		return (E) heap[0];
+	}
+
+	private boolean isFull() {
+		return size == heap.length;
+	}
+
+	private void raise() {
+		Object[] tmp = new Object[heap.length * 2];
+		System.arraycopy(heap, 0, tmp, 0, heap.length);
+		this.heap = tmp;
+	}
+
+	private void heapifyUp(Object[] arr, int i, int n) {
 		if (i < 0) return;
 
-		// 最大值下标
-		int max = heapify_helper(tree, i, n);
+		int max = heapifyHelper(arr, i, n);
 
-		if (i != max) {
-			swap(tree, i, max);
-			if (i != 0)
-				heapify_bottom((i - 1) / 2);
+		if (max != i) {
+			swap(arr, i, max);
+			heapifyUp(arr, (i - 1) / 2, n);
+		}
+	}
+
+	private void heapifyDown(Object[] arr, int i, int n) {
+		if (i >= n) return;
+
+		int max = heapifyHelper(arr, i, n);
+
+		if (max != i) {
+			swap(arr, i, max);
+			heapifyDown(arr, max, n);
+		}
+	}
+
+	private int heapifyHelper(Object[] arr, int i, int n) {
+		int max = i;
+		int c1 = i * 2 + 1;
+		int c2 = i * 2 + 2;
+
+		if (c1 < n && compare(arr[c1], arr[max]) < 0) max = c1;
+		if (c2 < n && compare(arr[c2], arr[max]) < 0) max = c2;
+
+		return max;
+	}
+
+	private int compare(Object val1, Object val2) {
+		if (this.comparator == null) {
+			return ((Comparable<E>) val1).compareTo((E) val2);
+		} else {
+			return this.comparator.compare((E) val1, (E) val2);
 		}
 	}
 
@@ -49,115 +128,5 @@ public class MyPriorityQueue<E> extends AbstractQueue<E> {
 		Object tmp = arr[i];
 		arr[i] = arr[j];
 		arr[j] = tmp;
-	}
-
-	// 自顶向下heapify
-	private void heapify_down(Object[] tree, int n, int i) {
-		if (i >= n) return;
-
-		// 最大值下标
-		int max = heapify_helper(tree, i, n);
-
-		if (i != max) {
-			swap(tree, i, max);
-			heapify_down(tree, n, max);
-		}
-	}
-
-	private int heapify_helper(Object[] tree, int i, int n) {
-		int max = i;
-		int c1 = 2 * i + 1;
-		int c2 = 2 * i + 2;
-
-		if (c1 < n && !compare((E) tree[c1], (E) tree[max]))
-			max = c1;
-		if (c2 < n && !compare((E) tree[c2], (E) tree[max]))
-			max = c2;
-		return max;
-	}
-
-	public boolean compare(E a, E b) {
-		if (comparator != null)
-			return comparator.compare(a, b) > 0;
-
-		else {
-			Comparable<E> comparable1 = (Comparable<E>) a;
-			return comparable1.compareTo(b) > 0;
-		}
-	}
-
-	@Override
-	public Iterator<E> iterator() {
-		return new MyPriorityQueueIterator();
-	}
-
-	@Override
-	public int size() {
-		return n;
-	}
-
-	@Override
-	public boolean offer(E e) {
-		if (isFull()) raise();
-
-		tree[n] = e;
-		n++;
-		heapify_bottom((n - 2) / 2);
-		return true;
-	}
-
-	private boolean isFull() {
-		return n == tree.length;
-	}
-
-	private void raise() {
-		Object[] objs = new Object[2 * n];
-		System.arraycopy(tree, 0, objs, 0, n);
-		tree = objs;
-	}
-
-	@Override
-	public E poll() {
-		if (isEmpty()) return null;
-
-		E result = (E) this.tree[0];
-		swap(this.tree, 0, --n);
-		// 从顶部到底部进行heapify;
-		heapify_down(tree, n, 0);
-
-		return result;
-	}
-
-	@Override
-	public E peek() {
-		if (isEmpty()) return null;
-		else return (E) tree[0];
-	}
-
-	private class MyPriorityQueueIterator implements Iterator<E> {
-		private final Object[] iteratorTree;
-		private int idx;
-
-		public MyPriorityQueueIterator() {
-			idx = MyPriorityQueue.this.n;
-			int len = MyPriorityQueue.this.tree.length;
-			this.iteratorTree = new Object[len];
-			System.arraycopy(MyPriorityQueue.this.tree, 0, this.iteratorTree, 0, len);
-		}
-
-		@Override
-		public boolean hasNext() {
-			return idx != 0;
-		}
-
-		@Override
-		public E next() {
-			E result = (E) iteratorTree[0];
-
-			swap(iteratorTree, 0, --idx);
-			heapify_down(iteratorTree, idx, 0);
-
-			return result;
-		}
 	}
 }

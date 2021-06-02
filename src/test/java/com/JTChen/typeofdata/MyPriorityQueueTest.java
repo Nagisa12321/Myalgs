@@ -2,23 +2,41 @@ package com.JTChen.typeofdata;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.PriorityQueue;
+
 public class MyPriorityQueueTest {
-	@Test
-	public void testCompare1() {
-		MyPriorityQueue<String> queue = new MyPriorityQueue<>();
-		System.out.println(queue.compare("abc", "defghi"));
-	}
 
 	@Test
 	public void testOffer() {
-		MyPriorityQueue<Integer> queue = new MyPriorityQueue<>();
+		PriorityQueue<Integer> queue1 = new  PriorityQueue<>();
+		MyPriorityQueue<Integer> queue2 = new  MyPriorityQueue<>();
 
+		for (int i = 0; i < 50; i++) {
+			int num = (int) (Math.random() * 50);
+			queue1.offer(num);
+			queue2.offer(num);
+		}
 
-		int[] tree = {2, 5, 3, 1, 10, 4};
-		for (int i = 0; i < 6; i++)
-			queue.offer(tree[i]);
+		System.out.println(queue1);
+		System.out.println(queue2);
 
-		System.out.println(queue);
+		System.out.println(queue1.size());
+		System.out.println(queue2.size());
+
+		int[] nums1 = new int[25];
+		int[] nums2 = new int[25];
+
+		for (int i = 0; i < 25; i++) {
+			nums1[i] = queue1.poll();
+			nums2[i] = queue2.poll();
+		}
+
+		System.out.println(Arrays.toString(nums1));
+		System.out.println(Arrays.toString(nums2));
+
+		System.out.println(queue1.size());
+		System.out.println(queue2.size());
 	}
 
 }

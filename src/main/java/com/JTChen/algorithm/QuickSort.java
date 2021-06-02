@@ -16,12 +16,12 @@ public class QuickSort {
 
 	private static void qsort(int[] arr, int lo, int hi) {
 		if (lo >= hi) return;
-		if (hi - lo + 1 <= CUTOFF) {
-			InsertSort.insertSort(arr, lo, hi);
-			return;
-		}
-		int m = medianOf3(arr, lo, hi, lo + (hi - lo) / 2);
-		swap(arr, lo, m);
+//		if (hi - lo + 1 <= CUTOFF) {
+//			InsertSort.insertSort(arr, lo, hi);
+//			return;
+//		}
+//		int m = medianOf3(arr, lo, hi, lo + (hi - lo) / 2);
+//		swap(arr, lo, m);
 
 		int mid = partition(arr, lo, hi);
 

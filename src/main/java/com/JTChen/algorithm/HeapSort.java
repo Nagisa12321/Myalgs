@@ -1,61 +1,75 @@
 package com.JTChen.algorithm;
 
+import java.util.Arrays;
+
 /**
- * @author JT Chen
+ * @author jtchen
  * @version 1.0
- * @date 2020/10/29
+ * @date 2021/5/21 10:52
  */
 public class HeapSort {
-    /**
-     * 构造函数
-     *
-     * @param arr 想排序的数组
-     */
-    public static void Sort(int[] arr) {
-        //构造大顶堆
-        for (int i = arr.length / 2 - 1; i >= 0; i--) {
-            adjustHeap(arr, i, arr.length);
-        }
-        //交换堆顶元素和末尾元素,重新调整堆的结构
-        for (int i = arr.length - 1; i > 0; i--) {
-            swap(arr, i);
-            adjustHeap(arr, 0, i);
-        }
-    }
 
-    /**
-     * 对每个“小堆”进行排序
-     *
-     * @param arr    总数组
-     * @param i      父节点index
-     * @param length 数组长度
-     */
-    private static void adjustHeap(int[] arr, int i, int length) {
-        //先取出当前元素i
-        int temp = arr[i];
-        //从左节点开始，也就是2i + 1处开始
-        for (int k = i * 2 + 1; k < length; k = 2 * k + 1) {
-            //如果右节点还比左节点大，那么k++，即指向右节点
-            if (k + 1 < length && arr[k] < arr[k + 1])
-                ++k;
-            //如果子节点大于父节点，则将子节点赋值给父节点
-            if (arr[k] > temp) {
-                arr[i] = arr[k];
-                //子节点成为新的父节点
-                i = k;
-            } else break;
-        }
-        arr[i] = temp;
-    }
+	public static void heapsort(int[] arr) {
+		buildheap(arr, arr.length);
+		int i = arr.length - 1;
+		while (i >= 0) {
+			swap(arr, i, 0);
+			heapify(arr, 0, i--);
+		}
+	}
 
-    /**
-     * 交换元素
-     *  @param arr 总数组
-     * @param k   子节点index
-     */
-    private static void swap(int[] arr, int k) {
-        int temp = arr[0];
-        arr[0] = arr[k];
-        arr[k] = temp;
-    }
+	private static void buildheap(int[] arr, int n) {
+		for (int i = (n - 2) / 2; i >= 0; i--) {
+			heapify(arr, i, n);
+		}
+	}
+
+	private static void heapify(int[] arr, int i, int n) {
+		if (i >= n) return;
+
+		int c1 = i * 2 + 1;
+		int c2 = i * 2 + 2;
+		int max = i;
+
+		if (c1 < n && less(arr, max, c1)) max = c1;
+		if (c2 < n && less(arr, max, c2)) max = c2;
+
+		if (max != i) {
+			swap(arr, i, max);
+			heapify(arr, max, n);
+		}
+	}
+
+	private static boolean isSorted(int[] arr) {
+		return isSorted(arr, 0, arr.length - 1);
+	}
+
+	private static boolean isSorted(int[] arr, int lo, int hi) {
+		for (int i = lo + 1; i <= hi; i++)
+			if (arr[i] < arr[i - 1]) return false;
+		return true;
+	}
+
+	private static void swap(int[] arr, int i, int j) {
+		int tmp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = tmp;
+	}
+
+	private static boolean less(int[] arr, int i, int j) {
+		return arr[i] < arr[j];
+	}
+
+	public static void main(String[] args) {
+		int[] nums = new int[1000];
+		for (int i = 0; i < 1000; i++) {
+			nums[i] = (int) (Math.random() * 400);
+		}
+		System.out.println(Arrays.toString(nums));
+		heapsort(nums);
+		System.out.println(Arrays.toString(nums));
+		System.out.println(isSorted(nums));
+	}
+
+
 }

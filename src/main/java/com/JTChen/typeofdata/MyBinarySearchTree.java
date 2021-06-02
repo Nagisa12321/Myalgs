@@ -25,6 +25,7 @@ import java.util.Set;
  * @date 2020/11/28 11:38
  * @version 1.0
  ************************************************/
+@Deprecated
 public class MyBinarySearchTree<Item extends Comparable<Item>> {
     private TreeNode root;
 

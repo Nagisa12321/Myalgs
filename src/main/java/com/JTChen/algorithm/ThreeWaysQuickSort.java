@@ -1,6 +1,7 @@
 package com.JTChen.algorithm;
 
 import java.util.Arrays;
+import java.util.PriorityQueue;
 
 /**
  * @author jtchen
@@ -24,22 +25,19 @@ public class ThreeWaysQuickSort {
 	}
 
 	private static void qsort(int[] arr, int lo, int hi) {
-		if (hi <= lo) return;
-		int lt = lo, gt = hi;
-		int v = arr[lo];
-		int i = lo + 1;
+		if (lo >= hi) return;
+
+		int lt = lo, i = lo, gt = hi;
+		int key = arr[lo];
+
 		while (i <= gt) {
-			int cmp = arr[i] - v;
-			if (cmp < 0) swap(arr, lt++, i++);
-			else if (cmp > 0) swap(arr, i, gt--);
+			if (arr[i] < key) { swap(arr, i++, lt++); }
+			else if (arr[i] > key) { swap(arr, i, gt--); }
 			else i++;
 		}
 
 		qsort(arr, lo, lt - 1);
 		qsort(arr, gt + 1, hi);
-
-		assert isSorted(arr, lo, hi);
-
 	}
 
 	private static void swap(int[] arr, int i, int j) {
