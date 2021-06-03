@@ -153,3 +153,103 @@ s
         - 而且进行左转的时候, 红黑性质没有发生任何改变. 
         - 情况3中, 为了保证红黑性质, 要把父亲变成黑色, 把祖父变成红色, 然后对祖父进行右旋
         - 之后进入下一次循环便会发现z.p.color == BLACK, 因此会跳出循环. 
+
+## 红黑树的删除. (O(lgN))
+
+- 维持y是从树中删除的节点. 当删除节点<2的时候, y就是删除的节点. 当要删除的节点z有两个孩子的时候, y是z的后继
+- 因为y的颜色可能改变, 我们应该记录y一开始的颜色. 
+- 在循环的最后对y一开始的颜色进行判断, 如果y一开始是黑色的, 那么删除或者移动y会引起红黑性质的破坏. 
+- 如果删除节点的孩子 < 2, 直接用孩子替换z, 此时只要z的颜色是黑色, 就要进行后续fix_up
+- 如果删除节点有两个孩子, 那么会找到z的后继代替z, 需不需要fix_up取决于后继y的一开始的颜色. 
+- 如果z的后继一开始红色, 我们替代位置之后, 只需改变y的颜色, 红黑性质没有发生变化, 因此不用fix_up
+- 我们维持x是y的唯一子节点(有可能是nil), 确切说是用来fix_up的节点
+
+- RB_TRANSPLANT(T, u, v)
+    ```
+    if (u.p == nil) T.root = v;
+    else if (u.p.left = u) u.p.left = v;
+    else u.p.right = v;
+    v.p = u.p;
+    ```
+- RB_DELETE(T, z) 
+    ```
+    y = z;
+    color = y.color;
+    if (z.left == nil) {
+        x = z.right;
+        RB_TRANSPLANT(T, z, z.right);
+    } else if (z.right == nil) {
+        x = z.left;
+        RB_TRANSPLANT(T, z, z.left);
+    } else {
+        y = MIN(z);
+        x = y.right;
+        color = y.color;
+        if (y.p == z) {
+            x.p = y // 如果x是nil不至于后面爆空指针异常
+        } else {
+            RB_TRANSPLANT(T, y, y.right);
+            y.right = z.right;
+            y.right.p = y;
+        }
+        RB_TRANSPLANT(T, z, y);
+        y.left = z.left;
+        y.left.p = z.p;
+        y.color = z.color;
+    }
+    if (color == BLACK) RB_DELETE_FIXUP(T, x)
+    ```
+
+- 为什么y一开始的颜色是黑色, 就会破坏红黑性质? 
+    1. 如果z的孩子数量 < 2, 那么y就是z, 那如果z一开始的颜色是黑色, 突然删除z会导致z这一分支的黑高. 如果是红色则不会发生这个情况
+    2. 如果z有两个孩子, 如果z一开始为红色, 那y替代z的时候, 被迫变为红色, 那么y的子节点的黑高将会减少. 
+
+- while循环的目标是什么? 
+    - 把多出来的黑色上移.
+    - 在while循环中. x总是指向一个双重黑色的非根节点
+    - 因为是双重黑色, 所以兄弟节点w不可能为nil
+
+- 几种情况
+    1. 兄弟节点w为红色:
+        - 把w变成黑色, 共同的父亲变成红色, 然后左旋父亲节点.
+        - 会把情况变为2/3/4, 因为w是红色, 那么它的孩子是黑色, 接下来x的兄弟就是黑的
+    2. 兄弟节点为黑色, 而且兄弟节点的两个子节点都是黑色. 
+        - 这种情况把兄弟节点直接变成红色, 平衡了两兄弟之间的黑高, 然后x向上走. 
+    3. 兄弟节点是黑色, 其左节点为红色的, 右节点是黑色的.
+        - 交换兄弟和兄弟左节点的颜色, 对兄弟进行右旋, 会转化为情况4
+    4. 如果没发生情况3/发生情况3都会跳到情况4, 
+        - 交换兄弟和父亲的颜色, 兄弟右节点变成黑色, 然后左旋父亲节点.
+        - 这样操作之后, 重复黑色就去除了. 
+        - 因此最后把x置为root, 循环退出. 
+
+- RB_DELETE_FIXUP(T, x)
+```
+while (x != root && x.color == BLACK) {
+    if (x == x.p.left) {
+        w = x.p.right;
+        if (w.color == RED) {
+            w.color = BLACK;
+            x.p.color = RED;
+            LEFT_RORATE(x.p);
+        } else if (w.left.color == BLACK && w.right.color == BLACK) {
+            w.color = RED;
+            x = x.p;
+        } else {
+            if (w.left.color == RED) {
+                w.color = RED;
+                w.left.color = BLACK;
+                RIGHT_RORATE(w);
+                w = x.p.right;
+            }
+            w.color = x.p.color;
+            x.p.color = BLACK;
+            w.right.color = BLACK;
+            LEFT_RORATE(x.p);
+            x = T.root;
+        }
+    } else {
+        // same as top
+    }
+    T.root.color = BLACK
+} 
+```

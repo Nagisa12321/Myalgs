@@ -2,6 +2,7 @@ package com.JTChen.typeofdata.table.impl;
 
 import com.JTChen.typeofdata.table.AbstarctSortedTable;
 
+import java.awt.image.renderable.RenderableImage;
 import java.util.*;
 
 /**
@@ -25,7 +26,7 @@ public class RBTreeMap<K, V> extends AbstarctSortedTable<K, V> {
 	/**
 	 * 共同的叶子节点
 	 */
-	private RBTreeNode nil;
+	private final RBTreeNode nil;
 	/**
 	 * 键比较器
 	 */
@@ -72,6 +73,9 @@ public class RBTreeMap<K, V> extends AbstarctSortedTable<K, V> {
 		assert isRBTree();
 	}
 
+	/**
+	 * 修补插入操作
+	 */
 	private void fixUp(RBTreeNode z) {
 		while (z.parent.color == RED) {
 			if (z.parent.parent.left == z.parent) {
@@ -113,19 +117,111 @@ public class RBTreeMap<K, V> extends AbstarctSortedTable<K, V> {
 		root.color = BLACK;
 	}
 
+	/**
+	 * 修补删除操作
+	 */
+	private void fixUpDelete(RBTreeNode x) {
+		RBTreeNode w;
+		while (x != root && x.color == BLACK) {
+			if (x.parent.left == x) {
+				w = x.parent.right;
+				if (w.color == RED) {
+					w.color = BLACK;
+					x.parent.color = RED;
+					leftRorate(x.parent);
+				} else if (w.left.color == BLACK && w.right.color == BLACK) {
+					w.color = RED;
+					x = x.parent;
+				} else {
+					if (w.left.color == RED) {
+						w.color = RED;
+						w.left.color = BLACK;
+						rightRorate(w);
+						w = x.parent.right;
+					}
+					w.color = x.parent.color;
+					x.parent.color = BLACK;
+					w.right.color = BLACK;
+					leftRorate(x.parent);
+					x = root;
+				}
+			} else {
+				w = x.parent.left;
+				if (w.color == RED) {
+					w.color = BLACK;
+					x.parent.color = RED;
+					rightRorate(x.parent);
+				} else if (w.left.color == BLACK && w.right.color == BLACK) {
+					w.color = RED;
+					x = x.parent;
+				} else {
+					if (w.right.color == RED) {
+						w.color = RED;
+						w.right.color = BLACK;
+						leftRorate(w);
+						w = x.parent.left;
+					}
+					w.color = x.parent.color;
+					x.parent.color = BLACK;
+					w.left.color = BLACK;
+					rightRorate(x.parent);
+					x  = root;
+				}
+			}
+		}
+		x.color = BLACK;
+	}
+
 	@Override
 	public V get(K key) {
 		return null;
 	}
 
+	/**
+	 * 删除一个键值为key的节点
+	 */
 	@Override
 	public void delete(K key) {
+		RBTreeNode z = search(key);
+		if (z == null) return;
 
+		RBTreeNode x;
+		RBTreeNode y = z;
+		boolean color = y.color;
+		if (z.left == nil) {
+			x = z.right;
+			transplant(z, z.right);
+		} else if (z.right == nil) {
+			x = z.left;
+			transplant(z, z.left);
+		} else {
+			y = min(z.right);
+			color = y.color;
+			x = y.right;
+			if (y == z.right) {
+				 x.parent = y; // 如果x是nil不至于后面爆空指针异常
+			} else {
+				transplant(y, y.right);
+				y.right = z.right;
+				y.right.parent = y;
+			}
+			transplant(z, y);
+			y.left = z.left;
+			y.left.parent = y;
+			y.color = z.color;
+		}
+		if (color == BLACK)
+			fixUpDelete(x);
+
+		assert isRBTree();
 	}
 
+	/**
+	 * 返回是否存在key == key的键
+	 */
 	@Override
 	public boolean contains(K key) {
-		return false;
+		return search(key) != nil;
 	}
 
 	@Override
@@ -143,9 +239,25 @@ public class RBTreeMap<K, V> extends AbstarctSortedTable<K, V> {
 		return null;
 	}
 
+	/**
+	 * 找到该红黑树的最小值
+	 * 等价于找到该红黑树的最左边节点.
+	 */
 	@Override
 	public K min() {
-		return null;
+		RBTreeNode min = min(root);
+		return min == nil ? null : min.key;
+	}
+
+	/**
+	 * 找到一个节点的最小的左边子节点
+	 */
+	private RBTreeNode min(RBTreeNode node) {
+		RBTreeNode cur = node;
+		while (true) {
+			if (cur.left == nil) return cur;
+			cur = cur.left;
+		}
 	}
 
 	@Override
@@ -173,6 +285,35 @@ public class RBTreeMap<K, V> extends AbstarctSortedTable<K, V> {
 		return null;
 	}
 
+	/**
+	 * 通过一个键查找相应的红黑节点, 如果找不到返回null
+	 * @return a node who's key == key/null
+	 */
+	private RBTreeNode search(K key) {
+		RBTreeNode cur = this.root;
+		while (cur != nil) {
+			int c = compare(cur.key, key);
+			if (c > 0) cur = cur.left;
+			else if (c < 0) cur = cur.right;
+			else return cur;
+		}
+		return null;
+	}
+
+	/**
+	 * 把v"种植"到u的位置,
+	 * 意思就是说用v代替u
+	 */
+	private void transplant(RBTreeNode u, RBTreeNode v) {
+		if (u.parent == nil) root = v;
+		else if (u.parent.left == u) u.parent.left = v;
+		else u.parent.right = v;
+		v.parent = u.parent;
+	}
+
+	/**
+	 * 返回红黑树的键集合
+	 */
 	@Override
 	public Iterable<K> keys(K lo, K hi) {
 		List<K> list = new ArrayList<>();
@@ -180,6 +321,9 @@ public class RBTreeMap<K, V> extends AbstarctSortedTable<K, V> {
 		return list;
 	}
 
+	/**
+	 * 递归搜索在范围内的键集合
+	 */
 	private void keys(RBTreeNode node, List<K> list, K lo, K hi) {
 		if (node == nil) return;
 		if (compare(node.key, lo) < 0) {
@@ -209,10 +353,19 @@ public class RBTreeMap<K, V> extends AbstarctSortedTable<K, V> {
 	}
 
 
+	@Override
+	public String toString() {
+		return nodes().toString();
+	}
+
 	/**
 	 * 层序遍历输出
 	 */
 	private void showFloor() {
+		if (root == nil) {
+			System.out.println("[]");
+			return;
+		}
 		Queue<RBTreeNode> q = new LinkedList<>();
 		q.offer(root);
 		while (!q.isEmpty()) {
@@ -297,9 +450,8 @@ public class RBTreeMap<K, V> extends AbstarctSortedTable<K, V> {
 		return comparator.compare(k1, k2);
 	}
 	////////////////////////////////////////////////////////////////////////////////////
-	/*--------------------------- Nature test (DEBUG) --------------------------------*/
+	//--------------------------- Nature test (DEBUG) --------------------------------//
 	////////////////////////////////////////////////////////////////////////////////////
-
 
 	/**
 	 * dfs加入list
