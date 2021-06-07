@@ -2,14 +2,14 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/JTChen/practicaloperation/FileList.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/JTChen/practicaloperation/Matrix.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/JTChen/practicaloperation/Rational.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/JTChen/practicaloperation/SmartDate.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/JTChen/practicaloperation/Transaction.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/JTChen/practicaloperation/VisualCounter.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/JTChen/typeofdata/Buffer.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/JTChen/typeofdata/RingBuffer.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/jtchen/practicaloperation/FileList.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/jtchen/practicaloperation/Matrix.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/jtchen/practicaloperation/Rational.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/jtchen/practicaloperation/SmartDate.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/jtchen/practicaloperation/Transaction.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/jtchen/practicaloperation/VisualCounter.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/jtchen/typeofdata/Buffer.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/jtchen/typeofdata/RingBuffer.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources/tale.txt" charset="GBK" />
     <file url="PROJECT" charset="GBK" />
