@@ -44,3 +44,53 @@ operation that accress and/or modify the attributes of x
 5. 每个关键字个数有上界和下界, 用一个被称为b树的最小度数t(t >= 2) 来表示
    1. 除了根节点, 每个节点至少有t - 1个关键字, 因此除了根节点以外每个内部节点至少有t个孩子
    2. 每个节点至多可以包含2t - 1个关键字, 因此一个内部节点最多可以有2t个孩子. 当一个节点有2t - 1个关键字, 那这个节点是满的(full)
+
+- ⭐ fun-fact: 红黑树对于每个节点: 吸收红色孩子节点, 并且把红色节点的孩子变成自己的孩子, 将会变成一个t = 2 的 b-tree
+
+## b-tree的基本操作
+
+- 两个约定
+   1. B-tree的根节点一直在主存中, 这样无需对根节点进行DISK-READ操作. 但是当根节点被改变的时候要做一次DISK-WRITE操作
+   2. 任何被当作参数的节点被传递之前, 都要进行DISK-READ操作
+
+### b-tree的搜索
+- 线性搜索: 
+- B-TREE-SEARCH(x, k) (从key1开始, 下标为1开始)
+   ```
+   i = 1;
+   while (i <= x.n && x.key(i) < k)
+      i = i + 1;
+   if (i <= x.n && x.key(i) == k) 
+      return (x, i);
+   else if (x.leaf) 
+      return NIL;
+   else {
+      DISK-READ(x, c(i));
+      return B-TREE-SEARCH(x.c(i), k);
+   }
+
+   ```
+- 利用线性搜索, 时间复杂度是O(tlog(t)n)/O(th)
+
+### b-tree的创建. 
+- B-TREE-CREATE(T)
+   ```
+   x = ALLOCATE-NODE()
+   x.leaf = true;
+   x.n = 0;
+   DISK-WRITE(x);
+   T.root = x;
+   ```
+### b-tree 的插入
+- 不能简单的创建一个新的节点然后插入. 这会破坏b-tree的性质. 
+- 也不能将关键词插入到满了的b-tree之中
+- 因此在插入之前如果是满的要进行分裂, 把2t - 1分为两个t - 1和一个中间关键字, 中间关键字上升至父节点
+- 我们并不是等到找出插入过程中实际要分裂的满节点才做分裂, 相反, 当沿着树往下查找新的关键字所属的位置的时候, 就分裂沿途遇到的满节点
+- 因此要分裂一个节点y时能确保它父亲不是满的
+
+
+### b-tree的分裂
+
+
+## 磁盘管理/CS模型参考
+- https://medium.com/@pthtantai97/implement-key-value-store-by-btree-5a100a03da3a
