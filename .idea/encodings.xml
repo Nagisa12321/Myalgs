@@ -11,7 +11,10 @@
     <file url="file://$PROJECT_DIR$/src/main/java/com/jtchen/typeofdata/Buffer.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/jtchen/typeofdata/RingBuffer.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/mediumEWG.txt" charset="GBK" />
     <file url="file://$PROJECT_DIR$/src/main/resources/tale.txt" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/tinyDG.txt" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/tinyEWG.txt" charset="GBK" />
     <file url="PROJECT" charset="GBK" />
   </component>
 </project>

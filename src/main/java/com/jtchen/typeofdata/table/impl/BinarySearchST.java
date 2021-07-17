@@ -3,6 +3,7 @@ package com.jtchen.typeofdata.table.impl;
 import com.jtchen.typeofdata.table.AbstarctSortedTable;
 
 import java.util.Comparator;
+import java.util.HashMap;
 
 /**
  * @author jtchen
@@ -53,7 +54,6 @@ public class BinarySearchST<K, V> extends AbstarctSortedTable<K, V> {
 
 	@Override
 	public void delete(K key) {
-
 	}
 
 	@Override

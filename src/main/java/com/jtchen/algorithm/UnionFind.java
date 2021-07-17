@@ -2,6 +2,7 @@ package com.jtchen.algorithm;
 
 import edu.princeton.cs.algs4.Stopwatch;
 
+import java.net.Socket;
 import java.util.Scanner;
 
 /************************************************
@@ -34,6 +35,7 @@ public class UnionFind {
     }
 
     public static void main(String[] args) {
+        new Socket();
         Scanner c = new Scanner(System.in);
         int N = c.nextInt();
 

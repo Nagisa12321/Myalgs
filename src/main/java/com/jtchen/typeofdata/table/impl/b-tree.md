@@ -88,9 +88,185 @@ operation that accress and/or modify the attributes of x
 - 我们并不是等到找出插入过程中实际要分裂的满节点才做分裂, 相反, 当沿着树往下查找新的关键字所属的位置的时候, 就分裂沿途遇到的满节点
 - 因此要分裂一个节点y时能确保它父亲不是满的
 
+- 先执行判断根节点是否需要分裂
+- 注意: 对根节点的分裂是b树长高的唯一途径
+- B-TREE-INSERT(T, k)
+```
+   r = T.root;
+   if (r,n == 2 * t - 1) {
+      s = ALLOCATE-NODE();
+      s.n = 1;
+      s.leaf = false;
+      s.children[0] = r;
+      T.root = s;
+      B-TREE-SPLIT-CHILD(s, 0); 
+   }
+   r = T.root;
+   B-TREE-INSERT-NONFULL(r, k);
+```
+
+- 如果被插的节点是叶节点, 间接说明叶节点不是满的, 因此直接挪位插入即可
+- 如果被插的节点不是叶节点, 要搜索到合适的children位置插进去
+- 而且在插进去之前如果发现孩子节点是满的, 要先对孩子节点进行分裂. 
+- B-TREE-INSERT-NONFULL(x, k) 
+   ```
+   for (int i = 0; i < x.n; i++) {
+      if (x.key(i) == k) {
+         x.entries[i].value = v;
+         retrun;
+      }
+   }
+   if (x.leaf) {
+      int i = x.n;
+      for (; i >= 0; i--) {
+         if (x.key(i - 1) > k) 
+            x.entries[i] = x.entries[i - 1];
+         else break;
+      }
+      x.entries[i] = new Entry(k, v);
+      x.n++;
+   } else {
+      int i;
+      for (i = 0; i < x.n; i++) {
+         if (x.key(i) > k) break;
+      }
+      c = x.children(i);
+      DISK-READ(c);
+      if (c.n == 2 * t - 1) {
+         B-TREE-SPLIT-CHILD(x, i)
+         if (k > x.key(i)) 
+            i = i + 1;
+      }
+      B-TREE-INSERT-NONFULL(x.c(i), k)
+   }
+   ```
 
 ### b-tree的分裂
+- B-TREE-SPLIT-CHILD(x, i)
+   ```
+   y = x.children(i);
+   z = ALLOCATE-NODE()
+   z.n = t - 1;
+   z.leaf = y.leaf;
+   for (int j = 0; j < t - 1; i++) {
+      z.entries[j] = y.entries[j + t];
+   }
+   if (!y.leaf) {
+      for (int j = 0; j < t; j++) {
+         z.children[j] = y.entries[j + t];
+      }
+   }
+   y.n = t - 1;
 
+   for (int j = x.n; j >= i + 1; j--) {
+      x.entries[j] = x.entries[j - 1];
+   }
+   for (int j = x.n + 1; j >= i + 1; j--) {
+      x.children[j] = x.children[j - 1];
+   }
+   x.n++;
+   x.children[i + 1] = z;
+   x.entries[i] = y.enrties[t - 1];
 
+   DISK-WRITE(x);
+   DISK-WRITE(y);
+   DISK-WRITE(z);
+   ```
+
+## B-Tree的刪除
+- 如果刪除了某個節點, 要重新安排這個節點的孩子.
+- 和插入一樣, 要防止因爲刪除導致的`n < t - 1`
+- 過程B-TREE-DELETE從以x為根的子樹中刪除關鍵字k. 我們必須保證無論何時x遞歸調用自身時x中關鍵字個數至少爲最小度數t, 這個條件要求比通常B樹的最少關鍵字多一個以上, 使得有時在遞歸下降至子節點之前, 需要把一個關鍵字從樹中刪除, 無需任何向上回溯
+- 如果根節點x成爲一個不含任何關鍵字的内部節點. x就要刪除
+- x的唯一孩子x.c(0)成爲樹的新根. 從而樹的高度降低1, 同時也位處樹根必須包含至少一個關鍵字的性質(除非樹是空的.)
+
+1. 如果關鍵字k在節點x中, 并且x是葉節點, 直接刪除
+2. 如果關鍵字k在節點x中, 并且x不是葉節點
+   1. 如果節點x中前于k的子節點y至少包含t個關鍵字, 則找出k在以y為根的子樹中的前驅k', 遞歸的刪除k', 并在x中用k'代替k
+   2. 如果y中有少於t個關鍵字, 則華北差節點x中後于k的子節點z, 如果z至少有t個關鍵字, 則找出k在以z為根的子樹中的後繼k', 遞歸的刪除k', 并在x中用k'代替k
+   3. 否則就是k的左右孩子(y,z)都只有t-1的大小, 那麽直接把z合并到y, 然後递归刪除k即可
+3. 如果關鍵字k當前不在節點x之中, 則確定必包含k的子樹的根x.children(i), 必須執行步驟3a或3b來保證降至一個至少包含t個關鍵字的節點, 然後通過對x的某個合適的子節點進行遞歸
+   1. 如果x.children(i)只含有t - 1個關鍵字, 但是他的相鄰兄弟至少包含t個關鍵字, 則將x中的某一個關鍵字降至x.c(i)中, 將x.c(i)的相鄰左兄弟或者右兄弟的一個關鍵字升至x. 將該兄弟中相應的孩子指針移到x.c(i)之中, 這樣就使x.c(i)增加一個額外的關鍵字
+   2. 如果x.children(i)以及x.children(i)的相鄰節點只包含t - 1個關鍵字, 則將x.c(i)與一個兄弟合并, 即將x的一個關鍵字移至新合并的節點, 使之成爲該節點的中間關鍵字
+
+- B-TREE-DELETE(x, k)
+```
+int i;
+for (i = 0;  i < x.n; i++) {
+   if (x.key(i) >= k)
+      break;
+}
+if (x.key(i) == k) {
+   if (x.leaf) {
+      for (int j = i; j < n - 1; j++) {
+         x.enrties[j] = x.entries[j - 1];
+      }
+      x.n--;
+      return;
+   } else {
+      y = x.children(i);
+      if (y.n >= t) {
+         cur = y;
+         while (!cur.leaf) {
+            cur = cur.children(cur.n);
+         }
+         x.entries[i] = cur.entries[cur.n - 1];
+         k' = x.entries[i].key;
+         B-TREE-DELETE(y, k')
+      } else {
+         z = x.children(i + 1)
+         if (z.n >= t) {
+            cur = z;
+            while (!cur.leaf) {
+               cur = cur.children(0);
+            }
+            x.entries[i] = cur.entries[0];
+            k' = x.entries[i].key;
+            B-TREE-DELETE(z, k')
+         } else {
+            // copy k, z to y
+            // and recurse
+         }
+      }
+   }
+} else {
+   child = x.children(i);
+   if (i != 0 && x.children(i - 1).n >= t) {
+      leftChild = x.children(i - 1);
+      tmpEntry = x.entries[i];
+      tmpChild = leftChild.children(leftChild.n);
+      for (int i = n; i > 0; i++) {
+         child.entries[i] = child.entries[i - 1]; 
+      }
+      for (int i = n + 1; i > 0; i++) {
+         child.children[i] = child.children[i - 1]; 
+      }
+      leftChild.n--;
+      child.n++;
+      child.entries[0] = tmpEntry;
+      child.children[0] = tmpChild;
+   } else if (i != n && x.children(i - 1).n >= t) {
+      // same of the left
+   } else {
+      // pick a tmp child and 
+   }
+}
+```
+
+## B-tree 和磁盘存储
+- 利用以下网址给出的结构
+1. put
+   - 如果存在还要修改标志位
+   - 写入文件末尾. 
+2. delete
+   - 更改标志位(flag)
+3. get
+   - 通过b树算法, 找到所在的pos, 然后读取相应位置
+
+- 删除/标记的节点怎么处理???
+- 每隔一段时间通过"文件压缩"算法进行删除, 也可以跟踪用户行为. 
 ## 磁盘管理/CS模型参考
 - https://medium.com/@pthtantai97/implement-key-value-store-by-btree-5a100a03da3a
+
+## 课后答案参考
+- https://www.kancloud.cn/windmissing/algorithms-my-answer/115241
