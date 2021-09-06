@@ -1,9 +1,10 @@
 package com.jtchen.typeofdata.weightgraph;
 
-import edu.princeton.cs.algs4.IndexMinPQ;
-import edu.princeton.cs.algs4.LinearProbingHashST;
+import edu.princeton.cs.algs4.QuickUnionUF;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.PriorityQueue;
 
 /**
  * @author jtchen
@@ -76,6 +77,7 @@ public class MST {
 					continue;
 
 				mst.add(cur);
+
 				// 新的节点
 				int newNode = marked[v] ? w : v;
 				marked[newNode] = true;
@@ -90,16 +92,16 @@ public class MST {
 			weight = (double) Math.round(tmp * 10000000) / 10000000;
 
 			// sort list
-//			mst.sort((e1, e2) -> {
-//				int v1 = e1.either();
-//				int w1 = e1.other(v1);
-//				int v2 = e2.either();
-//				int w2 = e2.other(v2);
-//
-//				if (v1 < v2) return -1;
-//				else if (v1 > v2) return 1;
-//				else return w1 - w2;
-//			});
+			//	mst.sort((e1, e2) -> {
+			//		int v1 = e1.either();
+			//		int w1 = e1.other(v1);
+			//		int v2 = e2.either();
+			//		int w2 = e2.other(v2);
+			//
+			//		if (v1 < v2) return -1;
+			//		else if (v1 > v2) return 1;
+			//		else return w1 - w2;
+			//	});
 		}
 
 		@Override
@@ -116,7 +118,7 @@ public class MST {
 	private static class Prim implements Solution {
 
 		private final List<Edge> mst;
-		private double weight;
+		private final double weight;
 
 		public Prim(EdgeWeightGraph G) {
 			// edgeTo[v] - 将v点和树相连的最短边
@@ -131,8 +133,6 @@ public class MST {
 			for (Edge e : G.adj(0)) {
 				pq.offer(e);
 				edgeTo[e.other(0)] = e;
-				if (e.getWeight() < getWeight(0, edgeTo))
-					edgeTo[0] = e;
 			}
 
 			while (!pq.isEmpty()) {
@@ -174,19 +174,19 @@ public class MST {
 			weight = (double) Math.round(tmp * 100000) / 100000;
 
 			// sort list
-//			mst.sort((e1, e2) -> {
-//				int v1 = e1.either();
-//				int w1 = e1.other(v1);
-//				int v2 = e2.either();
-//				int w2 = e2.other(v2);
-//
-//				if (v1 < v2) return -1;
-//				else if (v1 > v2) return 1;
-//				else return w1 - w2;
-//			});
- 		}
+			//	mst.sort((e1, e2) -> {
+			//		int v1 = e1.either();
+			//		int w1 = e1.other(v1);
+			//		int v2 = e2.either();
+			//		int w2 = e2.other(v2);
+			//
+			//		if (v1 < v2) return -1;
+			//		else if (v1 > v2) return 1;
+			//		else return w1 - w2;
+			//	});
+		}
 
- 		private double getWeight(int i, Edge[] edges) {
+		private double getWeight(int i, Edge[] edges) {
 			return edges[i] == null ? Double.POSITIVE_INFINITY : edges[i].getWeight();
 		}
 
@@ -203,17 +203,52 @@ public class MST {
 
 	private static class Kruskal implements Solution {
 
+		private final List<Edge> mst;
+		private final double weight;
+
 		public Kruskal(EdgeWeightGraph G) {
+			QuickUnionUF uf = new QuickUnionUF(G.V());
+			PriorityQueue<Edge> edgePQ = new PriorityQueue<>();
+			mst = new ArrayList<>();
+			G.edges().forEach(edgePQ::offer);
+
+			while (!edgePQ.isEmpty()) {
+				Edge cur = edgePQ.poll();
+				int v = cur.either();
+				int w = cur.other(v);
+				if (uf.find(v) == uf.find(w))
+					continue;
+				uf.union(v, w);
+				mst.add(cur);
+			}
+
+			// weight
+			double tmp = .0;
+			for (Edge e : mst)
+				tmp += e.getWeight();
+			weight = (double) Math.round(tmp * 100000) / 100000;
+
+			// sort list
+			//	mst.sort((e1, e2) -> {
+			//		int v1 = e1.either();
+			//		int w1 = e1.other(v1);
+			//		int v2 = e2.either();
+			//		int w2 = e2.other(v2);
+			//
+			//		if (v1 < v2) return -1;
+			//		else if (v1 > v2) return 1;
+			//		else return w1 - w2;
+			//	});
 		}
 
 		@Override
 		public Iterable<Edge> edges() {
-			return null;
+			return mst;
 		}
 
 		@Override
 		public double weight() {
-			return 0;
+			return weight;
 		}
 	}
 }

@@ -95,11 +95,7 @@ public class QuickSort {
 	}
 
 	public static void main(String[] args) {
-		int[] arr = new int[20];
-		for (int i = 0; i < 20; i++) {
-			arr[i] = (int) (Math.random() * 20);
-		}
-		System.out.println(select(arr, 3));
+		int[] arr = {1, 4, 2, 8, 5, 7};
 		qsort(arr);
 		System.out.println(Arrays.toString(arr));
 	}

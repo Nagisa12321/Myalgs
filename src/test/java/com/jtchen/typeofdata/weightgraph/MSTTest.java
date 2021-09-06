@@ -3,32 +3,36 @@ package com.jtchen.typeofdata.weightgraph;
 import edu.princeton.cs.algs4.In;
 
 public class MSTTest {
+
 	public static void main(String[] args) {
 		In in = new In(args[0]);
 		System.out.println("Successfully getting input.");
 		EdgeWeightGraph G = new EdgeWeightGraph(in);
+
 		long start, end;
-		MST mst1, mst2;
+		long primLazyTime, primTime, kruskalTime;
 
 		start = System.currentTimeMillis();
-		mst1 = new MST(MST.Prim, G);
+		MST primLazy = new MST(MST.LazyPrim, G);
 		end = System.currentTimeMillis();
-		System.out.println("Prim's time: " + (end - start) + "ms. ");
+		primLazyTime = end - start;
 
 		start = System.currentTimeMillis();
-		mst2 = new MST(MST.LazyPrim, G);
+		MST prim = new MST(MST.Prim, G);
 		end = System.currentTimeMillis();
-		System.out.println("Lazy Prim's time: " + (end - start) + "ms. ");
+		primTime = end - start;
 
-		MST mst3 = new MST(MST.Kruskal, G);
+		start = System.currentTimeMillis();
+		MST kruskal = new MST(MST.Kruskal, G);
+		end = System.currentTimeMillis();
+		kruskalTime = end - start;
 
-		System.out.println("Prim.weight: " + mst1.weight());
-		System.out.println("Lazy Prim.weight: " + mst2.weight());
+		System.out.println("prim lazy:\ntime: " + primLazyTime + "ms\nweight: " + primLazy.weight());
+		// primLazy.edges().forEach(System.out::println);
+		System.out.println("\nprim:\ntime: " + primTime + "ms\nweight: " + prim.weight());
+		// prim.edges().forEach(System.out::println);
+		System.out.println("\nkruskal:\ntime: " + kruskalTime + "ms\nweight: " + kruskal.weight());
+		// kruskal.edges().forEach(System.out::println);
 
-//		Iterator<Edge> i1 = mst1.edges().iterator();
-//		Iterator<Edge> i2 = mst2.edges().iterator();
-//		while (i1.hasNext()) {
-//			assertEquals(i1.next(), i2.next());
-//		}
 	}
 }
